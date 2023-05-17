@@ -1,0 +1,269 @@
+@font-face {
+  font-family: 'ancient_handregular';
+  src: url('./webfontkit-20230516-185625/ancient_hand-webfont.woff2')
+      format('woff2'),
+    url('./webfontkit-20230516-185625/ancient_hand-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'stargate_sg-1_address_gnormal';
+  src: url('./webfontkit-20230516-185625/stargate_sg1_adress_glyphs-webfont.woff2')
+      format('woff2'),
+    url('./webfontkit-20230516-185625/stargate_sg1_adress_glyphs-webfont.woff')
+      format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+:root {
+  --glyph: 'stargate_sg-1_address_gnormal';
+  --ancient: 'ancient_handregular';
+}
+* {
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+}
+.container {
+  height: 1250px;
+  width: 1250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.outer-circle {
+  width: 100%;
+  height: 100%;
+  border: 6px groove #6e6e6e;
+  border-radius: 50%;
+  position: relative;
+  background: #909090;
+}
+.chevron {
+  width: 10%;
+  height: 10%;
+  clip-path: polygon(25% 100%, 75% 100%, 100% 0, 0 0);
+  background: rgba(70, 131, 180, 0.76);
+  position: absolute;
+  z-index: 10;
+}
+#c-1 {
+  top: -2.25%;
+  left: 44.5%;
+}
+#c-2 {
+  right: 15%;
+  top: 8%;
+  rotate: 40deg;
+}
+#c-3 {
+  rotate: 70deg;
+  top: 30%;
+  right: 0%;
+}
+#c-4 {
+  right: 0%;
+  bottom: 30%;
+  rotate: 106deg;
+}
+#c-5 {
+  right: 18%;
+  bottom: 6%;
+  rotate: 145deg;
+}
+#c-6 {
+  rotate: 196deg;
+  bottom: -0%;
+  left: 30%;
+}
+#c-7 {
+  rotate: -115deg;
+  bottom: 25%;
+  left: 2%;
+}
+#c-8 {
+  rotate: -75deg;
+  top: 33%;
+  left: -1%;
+}
+#c-9 {
+  rotate: -36deg;
+  top: 8%;
+  left: 15%;
+}
+.glyph-container {
+  left: 44.25%;
+  top: 44.25%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 11.75%;
+  height: 11.8%;
+  transform: rotateZ(calc((var(--nth-child) + 6) * calc(360 / 39) * 1deg))
+    translateY(390%)
+    rotateZ(calc((var(--nth-child) + 6) * calc(360 / 39) * -1deg));
+}
+.glyph-container::after {
+  content: '';
+  inset: 0;
+  margin-inline: 18%;
+  margin-block: 15%;
+  position: absolute;
+  z-index: 5;
+  transform-origin: center;
+  border-left: 2px solid #666;
+  transform: rotateZ(calc((var(--nth-child) + 6) * calc(360 / 39) * 1deg));
+}
+.glyph {
+  font-family: var(--glyph);
+  font-size: 4rem;
+  color: hsl(169, 93%, 93%);
+  text-align: center;
+}
+.inner-circle {
+  top: 7.55%;
+  left: 7.5%;
+  width: 85%;
+  height: 85%;
+  border: 10px solid #474747;
+  border-radius: 50%;
+  position: absolute;
+  background: #09dfb8e8;
+  background-image: url('./assets/wormhole.png');
+  background-size: 120%;
+  background-position-x: 30%;
+  background-position-y: 40%;
+  background-blend-mode: multiply;
+}
+.inner-circle::before {
+  content: '';
+  inset: 0;
+  position: absolute;
+}
+:nth-child(1) {
+  --nth-child: 1;
+}
+:nth-child(2) {
+  --nth-child: 2;
+}
+:nth-child(3) {
+  --nth-child: 3;
+}
+:nth-child(4) {
+  --nth-child: 4;
+}
+:nth-child(5) {
+  --nth-child: 5;
+}
+:nth-child(6) {
+  --nth-child: 6;
+}
+:nth-child(7) {
+  --nth-child: 7;
+}
+:nth-child(8) {
+  --nth-child: 8;
+}
+:nth-child(9) {
+  --nth-child: 9;
+}
+:nth-child(10) {
+  --nth-child: 10;
+}
+:nth-child(11) {
+  --nth-child: 11;
+}
+:nth-child(12) {
+  --nth-child: 12;
+}
+:nth-child(13) {
+  --nth-child: 13;
+}
+:nth-child(14) {
+  --nth-child: 14;
+}
+:nth-child(15) {
+  --nth-child: 15;
+}
+:nth-child(16) {
+  --nth-child: 16;
+}
+:nth-child(17) {
+  --nth-child: 17;
+}
+:nth-child(18) {
+  --nth-child: 18;
+}
+:nth-child(19) {
+  --nth-child: 19;
+}
+:nth-child(20) {
+  --nth-child: 20;
+}
+:nth-child(21) {
+  --nth-child: 21;
+}
+:nth-child(22) {
+  --nth-child: 22;
+}
+:nth-child(23) {
+  --nth-child: 23;
+}
+:nth-child(24) {
+  --nth-child: 24;
+}
+:nth-child(25) {
+  --nth-child: 25;
+}
+:nth-child(26) {
+  --nth-child: 26;
+}
+:nth-child(27) {
+  --nth-child: 27;
+}
+:nth-child(28) {
+  --nth-child: 28;
+}
+:nth-child(29) {
+  --nth-child: 29;
+}
+:nth-child(30) {
+  --nth-child: 30;
+}
+:nth-child(31) {
+  --nth-child: 31;
+}
+:nth-child(32) {
+  --nth-child: 32;
+}
+:nth-child(33) {
+  --nth-child: 33;
+}
+:nth-child(34) {
+  --nth-child: 34;
+}
+:nth-child(35) {
+  --nth-child: 35;
+}
+:nth-child(36) {
+  --nth-child: 36;
+}
+:nth-child(37) {
+  --nth-child: 37;
+}
+:nth-child(38) {
+  --nth-child: 38;
+}
+:nth-child(39) {
+  --nth-child: 39;
+}
+
