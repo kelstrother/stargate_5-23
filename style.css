@@ -15,7 +15,16 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+    font-family: 'stargate_atlantis_glyphsRg';
+    src: url('./atlantis-fontkit/atlantis-glyphs-webfont.woff2') format('woff2'),
+         url('./atlantis-fontkit/atlantis-glyphs-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
 :root {
+  --pegasus: 'stargate_atlantis_glyphsRg';
   --glyph: 'stargate_sg-1_address_gnormal';
   --ancient: 'ancient_handregular';
 }
@@ -40,64 +49,58 @@ body {
   align-items: center;
 }
 .outer-circle {
-  width: 100%;
-  height: 100%;
-  border: 6px groove #6e6e6e;
+  width: 80%;
+  height: 80%;
+  border: 6px solid #6e6e6e;
   border-radius: 50%;
   position: relative;
-  background: #909090;
+  filter: contrast(320%) brightness(150%);
+  background: 
+	radial-gradient(circle at 50% 50%, rgba(134, 134, 134, 0.555), rgba(98,98,98,1)),
+	url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.79' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 .chevron {
-  width: 10%;
-  height: 10%;
-  clip-path: polygon(25% 100%, 75% 100%, 100% 0, 0 0);
+  width: 15.5%;
+  height: 8%;
+  clip-path: polygon(0 10%, 30% 15%, 45% 80%, 55% 80%, 70% 15%, 100% 10%, 100% 0, 0 0);
   background: rgba(70, 131, 180, 0.76);
   position: absolute;
   z-index: 10;
 }
 #c-1 {
-  top: -2.25%;
-  left: 44.5%;
+  top: -4.35px;
+  left: 41.65%;
+  rotate: -.25deg;
 }
 #c-2 {
-  right: 15%;
-  top: 8%;
-  rotate: 40deg;
+  top: 124.5px;
+  right: 12.5%;
+  rotate: 39.5deg;
 }
 #c-3 {
-  rotate: 70deg;
-  top: 30%;
-  right: 0%;
+  top: 37.9%;
+  right: -43.5px;
+  rotate: 79.75deg;
 }
 #c-4 {
-  right: 0%;
-  bottom: 30%;
-  rotate: 106deg;
+  bottom: 23%;
+  right: 19px;
+  rotate: 119.5deg;
 }
 #c-5 {
-  right: 18%;
-  bottom: 6%;
-  rotate: 145deg;
+  bottom: 22.28%;
+  left: 2.323%;
+  rotate: 239deg;
 }
 #c-6 {
-  rotate: 196deg;
-  bottom: -0%;
-  left: 30%;
+  bottom: 53.65%;
+  left: -47.5px;
+  rotate: 278.5deg;
 }
 #c-7 {
-  rotate: -115deg;
-  bottom: 25%;
-  left: 2%;
-}
-#c-8 {
-  rotate: -75deg;
-  top: 33%;
-  left: -1%;
-}
-#c-9 {
-  rotate: -36deg;
-  top: 8%;
-  left: 15%;
+  top: 135px;
+  left: 12%;
+  rotate: -40.7deg;
 }
 .glyph-container {
   left: 44.25%;
@@ -108,9 +111,9 @@ body {
   align-items: center;
   width: 11.75%;
   height: 11.8%;
-  transform: rotateZ(calc((var(--nth-child) + 6) * calc(360 / 39) * 1deg))
+  transform: rotateZ(calc((var(--nth-child) + 6) * calc(360 / 36) * 1deg))
     translateY(390%)
-    rotateZ(calc((var(--nth-child) + 6) * calc(360 / 39) * -1deg));
+    rotateZ(calc((var(--nth-child) + 6) * calc(360 / 36) * -1deg));
 }
 .glyph-container::after {
   content: '';
@@ -121,33 +124,27 @@ body {
   z-index: 5;
   transform-origin: center;
   border-left: 2px solid #666;
-  transform: rotateZ(calc((var(--nth-child) + 6) * calc(360 / 39) * 1deg));
+  transform: rotateZ(calc((var(--nth-child) + 6) * calc(360 / 36) * 1deg));
 }
 .glyph {
-  font-family: var(--glyph);
-  font-size: 4rem;
+  font-family: var(--pegasus);
+  font-size: 2rem;
   color: hsl(169, 93%, 93%);
-  text-align: center;
 }
 .inner-circle {
   top: 7.55%;
   left: 7.5%;
   width: 85%;
   height: 85%;
-  border: 10px solid #474747;
+  border: 10px solid #656565;
   border-radius: 50%;
   position: absolute;
-  background: #09dfb8e8;
+  background: #02fef1de;
   background-image: url('./assets/wormhole.png');
   background-size: 120%;
   background-position-x: 30%;
   background-position-y: 40%;
   background-blend-mode: multiply;
-}
-.inner-circle::before {
-  content: '';
-  inset: 0;
-  position: absolute;
 }
 :nth-child(1) {
   --nth-child: 1;
@@ -257,7 +254,7 @@ body {
 :nth-child(36) {
   --nth-child: 36;
 }
-:nth-child(37) {
+/* :nth-child(37) {
   --nth-child: 37;
 }
 :nth-child(38) {
@@ -265,5 +262,5 @@ body {
 }
 :nth-child(39) {
   --nth-child: 39;
-}
+} */
 
