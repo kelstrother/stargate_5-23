@@ -29,19 +29,60 @@
   --ancient: 'ancient_handregular';
 }
 * {
-  line-height: 1.5;
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 body {
   height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #000;
+  overflow: hidden;
+}
+.dhd-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 75vmin;
+  margin: 10rem 10rem;
+}
+.dhd-btn {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #000;
+  font-family: var(--pegasus);
+  width: 12vmin;
+  height: 12vmin;
+  padding-block: 2rem;
+  font-size: 2rem;
+  border: 0;
+clip-path: polygon(50% 100%, 100% 62%, 84% 0, 16% 0, 0 62%);
+  /* filter: contrast(320%) brightness(150%); */
+  background: 
+  linear-gradient(
+    171deg,
+    hsl(183.75, 41.03%, 45.88%) 0%,
+    hsl(186.87, 41.74%, 45.1%) 1.3%,
+    hsl(188.75, 42.48%, 44.31%) 4.9%,
+    hsl(190.74, 42.6%, 43.73%) 10.4%,
+    hsl(192, 43.38%, 42.94%) 17.5%,
+    hsl(193.89, 43.78%, 42.55%) 25.9%,
+    hsl(195.16, 44.19%, 42.16%) 35.2%,
+    hsl(196.42, 44.6%, 41.76%) 45%,
+    hsl(197.68, 45.02%, 41.37%) 55%,
+    hsl(198.51, 45.19%, 40.78%) 64.8%,
+    hsl(200.43, 45.63%, 40.39%) 74.1%,
+    hsl(201.7, 46.08%, 40%) 82.5%,
+    hsl(203.87, 46.27%, 39.41%) 89.6%,
+    hsl(206.09, 46.46%, 38.82%) 95.1%,
+    hsl(208.04, 47.42%, 38.04%) 98.7%,
+    hsl(210.99, 48.15%, 37.06%) 100%
+    );
+    border: 0;
 }
-.container {
+.gate-container {
   height: 1250px;
   width: 1250px;
   display: flex;
@@ -49,8 +90,8 @@ body {
   align-items: center;
 }
 .outer-circle {
-  width: 80%;
-  height: 80%;
+  width: 70%;
+  height: 70%;
   border: 6px solid #6e6e6e;
   border-radius: 50%;
   position: relative;
@@ -61,48 +102,70 @@ body {
 }
 .chevron {
   width: 15.5%;
-  height: 8%;
+  height: 6%;
   clip-path: polygon(0 10%, 30% 15%, 45% 80%, 55% 80%, 70% 15%, 100% 10%, 100% 0, 0 0);
-  background: rgba(70, 131, 180, 0.76);
+  /* background: rgba(70, 131, 180, 0.76); */
+  background: 
+  linear-gradient(
+    171deg,
+    hsl(183.75, 41.03%, 41.88%) 0%,
+    hsl(186.87, 41.74%, 41.1%) 1.3%,
+    hsl(188.75, 42.48%, 40.31%) 4.9%,
+    hsl(190.74, 42.6%, 39.73%) 10.4%,
+    hsl(192, 43.38%, 38.94%) 17.5%,
+    hsl(193.89, 43.78%, 36.55%) 25.9%,
+    hsl(195.16, 44.19%, 36.16%) 35.2%,
+    hsl(196.42, 44.6%, 35.76%) 45%,
+    hsl(197.68, 45.02%, 35.37%) 55%,
+    hsl(198.51, 45.19%, 34.78%) 64.8%,
+    hsl(200.43, 45.63%, 34.39%) 74.1%,
+    hsl(201.7, 46.08%, 33%) 82.5%,
+    hsl(203.87, 46.27%, 32.41%) 89.6%,
+    hsl(206.09, 46.46%, 32.82%) 95.1%,
+    hsl(208.04, 47.42%, 32.04%) 98.7%,
+    hsl(210.99, 48.15%, 31.06%) 100%
+    );
+    opacity: .6;
   position: absolute;
   z-index: 10;
+  pointer-events: none;
 }
 #c-1 {
-  top: -4.35px;
+  top: -5.35px;
   left: 41.65%;
   rotate: -.25deg;
 }
 #c-2 {
-  top: 124.5px;
-  right: 12.5%;
+  top: 88.5px;
+  right: 11.85%;
   rotate: 39.5deg;
 }
 #c-3 {
-  top: 37.9%;
-  right: -43.5px;
-  rotate: 79.75deg;
+  top: 38.25%;
+  right: -40.5px;
+  rotate: 79deg;
 }
 #c-4 {
-  bottom: 23%;
-  right: 19px;
+  bottom: 23.45%;
+  right: 5px;
   rotate: 119.5deg;
 }
 #c-5 {
   bottom: 22.28%;
-  left: 2.323%;
+  left: 1.4%;
   rotate: 239deg;
 }
 #c-6 {
-  bottom: 53.65%;
-  left: -47.5px;
+  bottom: 54.65%;
+  left: -42.5px;
   rotate: 278.5deg;
 }
 #c-7 {
-  top: 135px;
-  left: 12%;
-  rotate: -40.7deg;
+  top: 94px;
+  left: 11.15%;
+  rotate: -40.5deg;
 }
-.glyph-container {
+.gate-symbol-container {
   left: 44.25%;
   top: 44.25%;
   position: absolute;
@@ -115,21 +178,21 @@ body {
     translateY(390%)
     rotateZ(calc((var(--nth-child) + 6) * calc(360 / 36) * -1deg));
 }
-.glyph-container::after {
+.gate-symbol-container::after {
   content: '';
-  inset: 0;
-  margin-inline: 18%;
-  margin-block: 15%;
+  inset: -5% -1% -5% 0;
+  margin-inline: 15%;
+  margin-block: 18%;
   position: absolute;
   z-index: 5;
-  transform-origin: center;
-  border-left: 2px solid #666;
+  transform-origin: center center;
+  border-left: 1px solid #666;
   transform: rotateZ(calc((var(--nth-child) + 6) * calc(360 / 36) * 1deg));
 }
-.glyph {
+.gate-symbols {
   font-family: var(--pegasus);
-  font-size: 2rem;
-  color: hsl(169, 93%, 93%);
+  font-size: 1.7rem;
+  color: hsl(0, 0%, 31%);
 }
 .inner-circle {
   top: 7.55%;
@@ -145,6 +208,12 @@ body {
   background-position-x: 30%;
   background-position-y: 40%;
   background-blend-mode: multiply;
+}
+.activate {
+  color: #fff;
+}
+.gate-symbol-activate {
+  color: #fff;
 }
 :nth-child(1) {
   --nth-child: 1;
