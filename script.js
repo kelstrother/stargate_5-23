@@ -3,6 +3,15 @@ const gateSymbolContainers = [
   ...document.querySelectorAll('.gate-symbol-container'),
 ];
 const dhdContainer = document.querySelector('.dhd-container');
+const chevrons = [...document.querySelectorAll('.chevron')];
+const chevron1 = document.getElementById('#c-1');
+const chevron2 = document.getElementById('#c-2');
+const chevron3 = document.getElementById('#c-3');
+const chevron4 = document.getElementById('#c-4');
+const chevron5 = document.getElementById('#c-5');
+const chevron6 = document.getElementById('#c-6');
+const chevron7 = document.getElementById('#c-7');
+const dialGate = document.querySelector('.dial-address');
 
 //! BUILDING DHD
 gateSymbolContainers.forEach((container, i) => {
@@ -18,8 +27,7 @@ gateSymbolContainers.forEach((container, i) => {
 
 const dhdSymbols = [...document.querySelectorAll('.dhd-btn')];
 
-let dialedAddress = [];
-
+let index = 0;
 function dialing(e) {
   let dialedSymbol = e.target;
   for (let i = 0; i < gateSymbols.length; i++) {
@@ -28,20 +36,40 @@ function dialing(e) {
       matchedGateSymbol.dataset.gate === dialedSymbol.dataset.dhd &&
       !matchedGateSymbol.classList.contains('gate-symbol-activate')
     ) {
-      matchedGateSymbol.dataset.matched = true;
-      matchedGateSymbol.classList.add('gate-symbol-activate');
-      dialedSymbol.classList.add('activate');
-      dialedAddress.push(matchedGateSymbol);
-      console.log(`chevron ${matchedGateSymbol.dataset.gate} locked!`);
-      console.log('outgoing wormhole: ', dialedAddress);
-      return dialedAddress;
-    } 
+      if (index < chevrons.length) {
+        index++;
+        let id = 'c-' + index.toString();
+        const lockedChevron = document.getElementById(id);
+        dialedAddress.push(dialedSymbol);
+        lockedChevron.classList.add('activate');
+        matchedGateSymbol.dataset.matched = true;
+        matchedGateSymbol.classList.add('gate-symbol-activate');
+        dialedSymbol.classList.add('activate');
+        console.log(`chevron ${index} locked!`);
+      }
+    }
   }
+  if (dialedAddress.length === chevrons.length) {
+    wormhole.classList.add('gate-activated');
+  }
+  return dialedAddress;
+}
+let dialedAddress = [];
+
+//~ /////////////////////////////////////
+//!         STRORING DIALED SYMBOLS         \\
+//~ /////////////////////////////////////
+function getStoredSymbols() {
+  let symbols;
+  if (localStorage.getItem('symbols') === null) {
+    symbols = [];
+  } else {
+    symbols = JSON.parse(localStorage.getItem('symbols'));
+  }
+  return symbols;
 }
 
-dhdSymbols.forEach((dhdSymbol) =>
-  dhdSymbol.addEventListener('click', dialing)
-);
+dhdSymbols.forEach((dhdSymbol) => dhdSymbol.addEventListener('click', dialing));
 
 //, CREATING GATE AND DHD SYMBOL OBJECTS
 // let gateData;

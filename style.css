@@ -40,7 +40,6 @@ body {
   overflow: hidden;
   position: relative;
 }
-
 .gate-container {
   height: 1250px;
   width: 1250px;
@@ -56,15 +55,43 @@ body {
   border-radius: 50%;
   position: relative;
   background: #485563;
-background: radial-gradient(circle, #29323c 50%, #485563) 90%;
+  background: radial-gradient(circle, #29323c 61%, #566371) 100%;
 }
+.inner-circle {
+  top: 7.55%;
+  left: 7.5%;
+  width: 85%;
+  height: 85%;
+  border: 15px solid #656565;
+  border-radius: 50%;
+  position: absolute;
+  background: black;
+
+  /* display: none; */
+}
+/* ! CHEVRONS */
 .chevron {
   width: 15.5%;
   height: 8%;
-  clip-path: polygon(13% 0, 87% 0, 87% 18%, 70% 13%, 55% 55%, 45% 55%, 30% 13%, 13% 18%);
-  background: #0F2027;
-  background: linear-gradient(to top, hsl(198, 39%, 38%) 20%, hsl(195, 35%, 25%), hsl(198, 44%, 15%));
-  opacity: .95;
+  clip-path: polygon(
+    13% 0,
+    87% 0,
+    87% 18%,
+    70% 13%,
+    55% 55%,
+    45% 55%,
+    30% 13%,
+    13% 18%
+  );
+  background: #0f2027;
+  background: linear-gradient(
+    to top,
+    hsl(198, 39%, 32%),
+    hsl(195, 39%, 30%),
+    hsl(198, 39%, 28%)
+  );
+  opacity: 0.9;
+  filter: blur(10px) brightness(110%);
   position: absolute;
   z-index: 10;
   pointer-events: none;
@@ -104,6 +131,7 @@ background: radial-gradient(circle, #29323c 50%, #485563) 90%;
   left: 11.65%;
   rotate: -40.5deg;
 }
+/* ! GATE SYMBOLS */
 .gate-symbol-container {
   left: 44.25%;
   top: 44.25%;
@@ -133,28 +161,14 @@ background: radial-gradient(circle, #29323c 50%, #485563) 90%;
   font-size: 1.6rem;
   color: hsl(0, 0%, 51%);
 }
-.inner-circle {
-  top: 7.55%;
-  left: 7.5%;
-  width: 85%;
-  height: 85%;
-  border: 10px solid #656565;
-  border-radius: 50%;
-  position: absolute;
-  background: black;
-  /* background: #02fef1de;
-  background-image: url('./assets/wormhole.png'); */
-  background-size: 105%;
-  background-position-x: 50%;
-  background-position-y: 50%;
-  background-blend-mode: multiply;
-}
+
+/* ! DHD */
 .dhd-container {
   position: absolute;
   display: flex;
   flex-wrap: wrap;
   width: 85vw;
-  bottom: 15px;
+  bottom: 20px;
   left: 8%;
 }
 .dhd-btn {
@@ -168,28 +182,114 @@ background: radial-gradient(circle, #29323c 50%, #485563) 90%;
   border: 0;
   clip-path: polygon(50% 100%, 100% 62%, 84% 0, 16% 0, 0 62%);
   background: rgb(34, 97, 91);
-  background: radial-gradient(circle, hsl(198, 39%, 38%) 30%, hsl(195, 35%, 25%) 65%, hsl(198, 44%, 15%)) 85%;
-  /* background: radial-gradient(
-    circle,
-    rgba(74, 208, 196, 1) 0%,
-    rgb(48, 123, 143) 70%
-    ); */
-    border: 0;
-  }
+  background: radial-gradient(
+      circle,
+      hsl(198, 35%, 40%) 10%,
+      hsl(195, 35%, 30%) 65%,
+      hsl(198, 35%, 15%)
+    )
+    85%;
+  border: 0;
+}
+.dial-address {
+  padding: 2rem;
+  position: absolute;
+  top: 70%;
+  left: -30%;
+  display: none;
+}
+/* ! JS CLASSES */
 .activate {
   font-size: 2.5rem;
-  color: #fff;
-  background: rgb(50, 140, 131);
+  color: #58deff;
+  text-shadow: -0.5px -0.5px 10px rgba(122, 228, 254, 0.7);
   background: radial-gradient(
-    circle,
-    rgb(57, 146, 171) 0%,
-    rgb(88, 255, 241) 70%
-  );
+      circle,
+      hsl(198, 35%, 30%) 0%,
+      hsl(195, 35%, 40%) 40%,
+      hsl(198, 35%, 60%)
+    )
+    100%;
+  box-shadow: -5px 5px 30px 3px rgba(117, 167, 189, 0.9);
 }
 .gate-symbol-activate {
   font-size: 2rem;
-  color: #fff;
+  color: #58deff;
+  text-shadow: -0.5px -0.5px 10px rgba(122, 228, 254, 0.7);
 }
+.gate-activated {
+  background: #02fef1de;
+  background-image: url('./assets/wormhole.png');
+  background-size: 105%;
+  background-position-x: 50%;
+  background-position-y: 50%;
+  background-blend-mode: multiply;
+}
+/* ~ BACKGROUND DESIGN */
+.column-container {
+  position: absolute;
+  padding-inline: 5vmin;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  background: #3e5151;
+  background: -webkit-linear-gradient(to right, #8e8c88 0%, #3e5151) 0%;
+  background: linear-gradient(to left, #8e8c88 -20%, #4e5353) -10%;
+  height: 100vh;
+}
+.column-container:nth-child(1) {
+  top: 0;
+  left: -1%;
+}
+.column-container:nth-child(2) {
+  top: 0;
+  right: -0.5%;
+  transform: scale(-1);
+}
+.row-light-container {
+  position: absolute;
+  width: 40%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  right: -5px;
+}
+.row-light-container:nth-child(1) {
+  top: 200px;
+}
+.row-light-container:nth-child(2) {
+  top: 500px;
+}
+.row-light-container:nth-child(3) {
+  bottom: 50px;
+}
+.row-light-container:nth-child(4) {
+  bottom: 300px;
+}
+.row-light {
+  width: 45px;
+  height: 5px;
+  background: #fff;
+  border-radius: 20%;
+  background: linear-gradient(
+    to left,
+    hsl(193, 39%, 45%) -50%,
+    hsl(193, 39%, 80%) 80%
+  );
+  box-shadow: -0.5px 0.5px 30px 3px rgba(252, 255, 255, 0.5);
+}
+.row-light:nth-child(odd) {
+  height: 7px;
+  width: 35px;
+}
+.row-light:nth-child(4) {
+  width: 70px;
+  height: 9px;
+}
+
 :nth-child(1) {
   --nth-child: 1;
 }
@@ -298,90 +398,3 @@ background: radial-gradient(circle, #29323c 50%, #485563) 90%;
 :nth-child(36) {
   --nth-child: 36;
 }
-/* BACKGROUND DESIGN */
-.column-container {
-  position: absolute;
-  padding-inline: 5vmin;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  background: #3E5151;
-  background: -webkit-linear-gradient(to right, #bdbbb6 0%, #3E5151) 0%;
-  background: linear-gradient(to left, #bdbbb6 -20%, #3E5151) -10%;
-  height: 100vh;
-}
-.column-container:nth-child(1) {
-  top: 0;
-  left: -1%;
-}
-.column-container:nth-child(2) {
-  top: 0;
-  right: -0.5%;
-  transform: scale(-1);
-}
-.row-light-container {
-  position: absolute;
-  width: 40%;
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: flex-end;
-  right: -5px;
-}
-.row-light-container:nth-child(1) {
-  top: 200px;
-}
-.row-light-container:nth-child(2) {
-  top: 500px;
-}
-.row-light-container:nth-child(3) {
-  bottom: 50px;
-}
-.row-light-container:nth-child(4) {
-  bottom: 300px;
-}
-.row-light {
-  width: 45px;
-  height: 5px;
-  background: #fff;
-  border-radius: 20%;
-  background: linear-gradient(to left, hsl(193, 39%, 45%) -50%, hsl(193, 39%, 80%) 80%); 
-  box-shadow: -.5px .5px 30px 3px  rgba(252, 255, 255, .5);
-}
-.row-light:nth-child(odd) {
-  height: 7px;
-  width: 35px;
-}
-.row-light:nth-child(4) {
-  width: 70px;
-  height: 9px;
-}
-/* .column-container:nth-child(2) .row-light-container {
-  height: 100px;
-}
-.column-container:nth-child(2) .row-light-container:nth-child(1) {
-  top: 150px;
-}
-.column-container:nth-child(2) .row-light-container:nth-child(2) {
-  top: 300px;
-}
-.column-container:nth-child(2) .row-light-container:nth-child(3) {
-  bottom: 150px;
-}
-.column-container:nth-child(2) .row-light-container:nth-child(4) {
-  bottom: 300px;
-}
-.column-container:nth-child(2) .row-light {
-  width: 45px;
-  height: 5px;
-  background: #fff;
-  border-radius: 20%;
-  background: linear-gradient(to left, #60adb9 -50%, #defffc 90%); 
-  box-shadow: -.5px .5px 30px 3px  rgba(252, 255, 255, .7);
-}
-.column-container:nth-child(2) .row-light:nth-child(odd) {
-  height: 4px;
-  width: 25px;
-} */
