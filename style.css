@@ -48,16 +48,31 @@ body {
   align-items: flex-start;
 }
 .outer-circle {
-  width: 80%;
-  height: 80%;
+  width: 1000px;
+  height: 1000px;
+  /* width: 80%;
+  height: 80%; */
   border: 6px solid #6e6e6e;
   margin: 0 auto;
   border-radius: 50%;
   position: relative;
   background: #485563;
   background: radial-gradient(circle, #29323c 61%, #566371) 100%;
+  /* animation: spin-gate 2s ease; */
+}
+@keyframes spin-gate {
+  to {
+    /* opacity: 1; */
+   rotate: 1turn;
+  }
+}
+.spin {
+  /* transform: rotate(360deg); */
+  transition: all 2s ease;
+  rotate: 3turn;
 }
 .inner-circle {
+  overflow: hidden;
   top: 7.55%;
   left: 7.5%;
   width: 85%;
@@ -131,6 +146,14 @@ body {
   left: 11.65%;
   rotate: -40.5deg;
 }
+/* button {
+  position: absolute;
+  top: 85%;
+  right: 48%;
+  padding: 1rem;
+  position: cursor;
+  animation: none;
+} */
 /* ! GATE SYMBOLS */
 .gate-symbol-container {
   left: 44.25%;
@@ -141,7 +164,7 @@ body {
   align-items: center;
   width: 11.75%;
   height: 11.8%;
-  transform: rotateZ(calc((var(--nth-child) + 6) * calc(360 / 36) * 1deg))
+  transform: rotateZ(calc((var(--nth-child) + 17) * calc(360 / 36) * 1deg))
     translateY(390%)
     rotateZ(calc((var(--nth-child) + 6) * calc(360 / 36) * -1deg));
 }
@@ -160,6 +183,8 @@ body {
   font-family: var(--pegasus);
   font-size: 1.6rem;
   color: hsl(0, 0%, 51%);
+  transform: rotateZ(-90deg);
+  /* transition: transform 2s ease; */
 }
 
 /* ! DHD */
@@ -211,6 +236,31 @@ body {
     )
     100%;
   box-shadow: -5px 5px 30px 3px rgba(117, 167, 189, 0.9);
+}
+@keyframes chevronEncoded {
+  from {
+  opacity: 0.9;
+  }
+  50% {
+  opacity: 1;
+  /* translate: 5px 5px; */
+  }
+  to {
+  opacity: 0.9;
+  scale: 1;
+  }
+}
+.chevron-locked {
+  animation: chevronEncoded .25s ease-in-out forwards;
+  filter: brightness(150%);
+   background: linear-gradient(
+    to top,
+    hsl(198, 39%, 38%),
+    hsl(195, 39%, 33%),
+    hsl(198, 39%, 30%)
+  );
+  box-shadow: -5px 5px 30px 3px rgba(117, 167, 189, 0.9);
+
 }
 .gate-symbol-activate {
   font-size: 2rem;
