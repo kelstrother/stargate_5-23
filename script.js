@@ -14,14 +14,16 @@ const chevron7 = document.getElementById('c-7');
 const dialGate = document.querySelector('.dial-address');
 const wormhole = document.querySelector('.inner-circle');
 
-const outerCircle = document.querySelector('.outer-circle');
-const centerX = outerCircle.offsetWidth / 2;
-const centerY = outerCircle.offsetHeight / 2;
+const gate = document.querySelector('.gate');
+const centerX = gate.offsetWidth / 2;
+const centerY = gate.offsetHeight / 2;
 const r = 500;
 const angleDeg = 360;
 const angleRadians = (angleDeg * Math.PI) / 180;
 const x = centerX + r * Math.cos(angleRadians);
 const y = centerY + r * Math.sin(angleRadians);
+const innerChevrons = [...document.querySelectorAll('.inner-chevron')]
+const stargate = document.getElementById('stargate');
 // console.log('x :', x, 'Y :', x);
 
 //! BUILDING DHD
@@ -60,9 +62,10 @@ function getPosition() {
 getPosition();
 
 function spinGate() {
-  gateSymbolContainers.forEach((container) => {
-    container.classList.toggle('spin');
-  })
+  // document.getElementById('outer-circle').style.transform = 'rotate(360deg)' 
+  // gateSymbolContainers.forEach((container) => {
+  //   container.classList.toggle('spin');
+  // })
 }
 function removeSpinGate() {
    gateSymbolContainers.forEach((container) => {
@@ -84,12 +87,15 @@ function dialing(e) {
       matchedGateSymbol.dataset.gate === dialedSymbol.dataset.dhd &&
       !matchedGateSymbol.classList.contains('gate-symbol-activate')
     ) {
-      if (index < chevrons.length) {
+      if (index < chevrons.length && innerChevrons.length) {
       index++;
       let id = 'c-' + index.toString();
+      let ic = 'ic-' + index.toString();
       const lockedChevron = document.getElementById(id);
+      const lockedInnerChevron = document.getElementById(ic);
       dialedAddress.push(dialedSymbol);
       lockedChevron.classList.add('chevron-locked');
+      lockedInnerChevron.style.opacity = '1';
       // lockedChevron.style.animation = "chevronEncoded .25s ease-in-out forwards"
       matchedGateSymbol.dataset.matched = true;
       matchedGateSymbol.classList.add('gate-symbol-activate');
@@ -100,7 +106,7 @@ function dialing(e) {
 });
 if (dialedAddress.length === chevrons.length) {
   wormhole.classList.add('gate-activated');
-  spinGate()
+  gate.classList.add('dial-gate');
 }
   return dialedAddress;
 }
