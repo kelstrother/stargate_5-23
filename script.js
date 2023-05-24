@@ -13,8 +13,14 @@ const chevron6 = document.getElementById('c-6');
 const chevron7 = document.getElementById('c-7');
 const dialGate = document.querySelector('.dial-address');
 const wormhole = document.querySelector('.inner-circle');
-
+const innerChevrons = [...document.querySelectorAll('.inner-chevron')];
+const stargate = document.getElementById('stargate');
+const chevronCircle = document.getElementById('chevron-circle');
 const gate = document.querySelector('.gate');
+const chevronContainers = [
+  ...document.querySelectorAll('.chevron-symbol-container'),
+];
+
 const centerX = gate.offsetWidth / 2;
 const centerY = gate.offsetHeight / 2;
 const r = 500;
@@ -22,8 +28,6 @@ const angleDeg = 360;
 const angleRadians = (angleDeg * Math.PI) / 180;
 const x = centerX + r * Math.cos(angleRadians);
 const y = centerY + r * Math.sin(angleRadians);
-const innerChevrons = [...document.querySelectorAll('.inner-chevron')]
-const stargate = document.getElementById('stargate');
 // console.log('x :', x, 'Y :', x);
 
 //! BUILDING DHD
@@ -37,107 +41,91 @@ gateSymbolContainers.forEach((container, i) => {
   dhdContainer.appendChild(dhdDial);
   return dhdDial;
 });
-
 const dhdSymbols = [...document.querySelectorAll('.dhd-btn')];
 
-function getPosition() {
-  // chevrons.forEach((chevron, i) => {
-  //   chevron = chevrons[i];
-  // })
-  for (let i = 0; i < chevrons.length; i++) {
-    let chevron = chevrons[i];
-    const chevronTop = chevron.getBoundingClientRect().top;
-    const chevronX = chevron.getBoundingClientRect().x;
-    const chevronY = chevron.getBoundingClientRect().y;
-    console.log(
-      `chevron ${i} top: `,
-      chevronTop,
-      `chevron ${i} X: `,
-      chevronX,
-      `chevron ${i} Y: `,
-      chevronY
-    );
-  }
-}
-getPosition();
+let idNum;
 
-function spinGate() {
-  // document.getElementById('outer-circle').style.transform = 'rotate(360deg)' 
-  // gateSymbolContainers.forEach((container) => {
-  //   container.classList.toggle('spin');
-  // })
-}
-function removeSpinGate() {
-   gateSymbolContainers.forEach((container) => {
-     container.classList.remove('spin');
-   });
-  // for (gateSymbol of gateSymbolContainers) {
-  //   gateSymbol.classList.remove('spin');
-  // }
-}
-// spinGate()
+gateSymbols.forEach((gateSymbol, i) => {
+  idNum = (i + 1).toString();
+  gateSymbol.setAttribute('id', 'gs-' + idNum);
+  return;
+});
+// let matchedID = document.getElementById(`gs-${idNum}`);
+let matchedID = document.querySelectorAll(`#gs-${idNum}`);
+console.log(matchedID);
 
 let index = 0;
-
+// let gsID;
+// let matchedID;
 function dialing(e) {
   let dialedSymbol = e.target;
+
   gateSymbols.forEach((symbol, i) => {
-    let matchedGateSymbol = gateSymbols[i];
+    matchedGateSymbol = gateSymbols[i];
     if (
       matchedGateSymbol.dataset.gate === dialedSymbol.dataset.dhd &&
       !matchedGateSymbol.classList.contains('gate-symbol-activate')
     ) {
       if (index < chevrons.length && innerChevrons.length) {
-      index++;
-      let id = 'c-' + index.toString();
-      let ic = 'ic-' + index.toString();
-      const lockedChevron = document.getElementById(id);
-      const lockedInnerChevron = document.getElementById(ic);
-      dialedAddress.push(dialedSymbol);
-      lockedChevron.classList.add('chevron-locked');
-      lockedInnerChevron.style.opacity = '1';
-      // lockedChevron.style.animation = "chevronEncoded .25s ease-in-out forwards"
-      matchedGateSymbol.dataset.matched = true;
-      matchedGateSymbol.classList.add('gate-symbol-activate');
-      dialedSymbol.classList.add('activate');
-      console.log(`chevron ${index} locked!`);
+        index++;
+        const hideSymbol = document.getElementById(`gs-${index}`);
+        hideSymbol.style.display = 'none';
+        dialedAddress.push(dialedSymbol);
+
+        matchedGateSymbol.classList.add('gate-symbol-activate');
+
+        createSymbolID();
+        createSymbol();
+
+        const chevronSymbol = document.getElementById(
+          'chevron-symbol-' + index.toString()
+        );
+        chevronSymbol.style.setProperty('--deg', `${chevDeg}`);
+        chevronSymbol.classList.add('active-chev-symbol');
+        chevronCircle.style.transition = `2s ease-in-out`;
+        chevronCircle.style.transform = `rotate(1turn)`;
+        // matchedGateSymbol.style.transform = 'rotate(1turn)'
+        // matchedGateSymbol.style.color = 'goldenrod'
+        // stargate.style.transform = `rotate(calc((2turn - ${parentDegree}) + ${chevDeg}))`;
+        dialedSymbol.classList.add('activate');
+        return;
+      }
     }
+  });
+  if (dialedAddress.length === chevrons.length) {
+    wormhole.classList.add('gate-activated');
+    return;
   }
-});
-if (dialedAddress.length === chevrons.length) {
-  wormhole.classList.add('gate-activated');
-  gate.classList.add('dial-gate');
 }
-  return dialedAddress;
+let chevContainer;
+let chevDeg;
+
+function createSymbolID() {
+  chevContainer = document.getElementById('csc-' + index.toString());
+  let id = 'c-' + index.toString();
+  let ic = 'ic-' + index.toString();
+  let lockedChevron = document.getElementById(id);
+  let lockedInnerChevron = document.getElementById(ic);
+  lockedChevron.classList.add('chevron-locked');
+  lockedInnerChevron.style.opacity = '1';
+
+  let chevronDegree = getComputedStyle(lockedChevron);
+  chevDeg = chevronDegree.getPropertyValue('--deg');
+  chevContainer.style.setProperty('--deg', `${chevDeg}`);
+  return;
+}
+let matchedGateSymbol;
+
+function createSymbol() {
+  const activatedSymbol = document.createElement('p');
+  activatedSymbol.classList.add('gate-symbols', 'chevron-symbol');
+  let chevSymbol = 'chevron-symbol-' + index.toString();
+  activatedSymbol.setAttribute('id', chevSymbol);
+  activatedSymbol.innerText = matchedGateSymbol.innerText;
+  chevContainer.appendChild(activatedSymbol);
+  return;
 }
 
-// function dialing(e) {
-//   let dialedSymbol = e.target;
-//   for (let i = 0; i < gateSymbols.length; i++) {
-//     let matchedGateSymbol = gateSymbols[i];
-//     if (
-//       matchedGateSymbol.dataset.gate === dialedSymbol.dataset.dhd &&
-//       !matchedGateSymbol.classList.contains('gate-symbol-activate')
-//       ) {
-//       if (index < chevrons.length) {
-//         index++;
-//         spinGate()
-//         let id = 'c-' + index.toString();
-//         const lockedChevron = document.getElementById(id);
-//         dialedAddress.push(dialedSymbol);
-//         lockedChevron.classList.add('activate');
-//         matchedGateSymbol.dataset.matched = true;
-//         matchedGateSymbol.classList.add('gate-symbol-activate');
-//         dialedSymbol.classList.add('activate');
-//         console.log(`chevron ${index} locked!`);
-//       }
-//     }
-//   }
-//   if (dialedAddress.length === chevrons.length) {
-//     wormhole.classList.add('gate-activated');
-//   }
-//   return dialedAddress;
-// }
 let dialedAddress = [];
 
 //~ /////////////////////////////////////
@@ -157,98 +145,25 @@ function getStoredSymbols() {
 //!         EVENT LISTENERS         \\
 //~ /////////////////////////////////////
 dhdSymbols.forEach((dhdSymbol) => dhdSymbol.addEventListener('click', dialing));
-// document.addEventListener('click', (e) =>
-//   console.log('X: ', e.clientX, 'Y: ', e.clientY)
-// );
-// button.addEventListener('click', () => {
-//   gateSymbolContainers.forEach((container) => {
-//     container.style.animation = 'animation: spin-gate 2s ease forwards';
 
-//   })
-// })
+//! REFACTORED SCRATCH CODE
+// const chevContainer = document.getElementById('csc-' + index.toString())
+// let id = 'c-' + index.toString();
+// let ic = 'ic-' + index.toString();
+// let lockedChevron = document.getElementById(id);
+// let lockedInnerChevron = document.getElementById(ic);
 
-// const gateContainers = document.querySelectorAll('.gate-symbol-container')
-// for (let i = 0; i < gateContainers.length; i++) {
-//   let symbol = gateContainers[i];
-//   symbol.style.transform = "rotate(1 turn)";
+// lockedChevron.classList.add('chevron-locked');
+// lockedInnerChevron.style.opacity = '1';
 
-// }
-//! POSITION SCRATCH FUNCTIONS
-// function getOffset(chev, sym) {
-//   const chevBottom = chev.getBoundingClientRect();
-//   const symTop = sym.getBoundingClientRect();
-//   return chevBottom.bottom - symTop.top;
-// }
-// console.log(getOffset(chevron1, wormhole));
+// let chevronDegree = getComputedStyle(lockedChevron)
+// let chevDeg = chevronDegree.getPropertyValue('--deg')
 
-// function chevronLocation() {
-//   chevrons.forEach((chevron, i) => {
-//     gateSymbolContainers.forEach((symbol, i) => {
-//       chevron = chevrons[i];
-//       // console.log('chev[i]: ', chevron);
-//       let chevLocation = chevron.getBoundingClientRect();
-//       console.log('chev location: ', chevLocation);
-//       symbol = gateSymbolContainers[i];
-//       // console.log('symbol[i]: ', symbol);
-//       let symbolLocation = symbol.getBoundingClientRect();
-//       console.log('symbol location: ', symbolLocation);
-//       console.log('offset= ', symbolLocation.top - chevLocation.top);
-//       // console.log((symbolLocation - chevLocation));
-//       return symbolLocation - chevLocation;
-//     });
-//   });
-// }
-// chevronLocation()
-// const offset = chevronLocation(chevLocation - symbolLocation);
-// console.log(offset);
-// const offset = (chevLocation - symbolLocation);
-//, CREATING GATE AND DHD SYMBOL OBJECTS
-// let gateData;
-// let gateSymbol;
-// let gateArray = [];
-// let gateObject = {};
+// const activatedSymbol = document.createElement('p');
+// activatedSymbol.classList.add('gate-symbols', 'chevron-symbol');
+// let chevSymbol = 'chevron-symbol-' + index.toString();
+// activatedSymbol.setAttribute('id', chevSymbol);
+// activatedSymbol.innerText = matchedGateSymbol.innerText;
+// chevContainer.appendChild(activatedSymbol)
 
-// function createGateObject() {
-//   gateSymbolContainers.forEach((container, i) => {
-//     matchedData = container.getAttribute('data-matched');
-//     gateData = container.getAttribute('data-gate');
-//     gateSymbol = container.firstElementChild.textContent || innerText;
-//     gateObject = {
-//       index: i,
-//       name: gateData,
-//       symbol: gateSymbol,
-//     };
-//     gateArray.push(gateObject);
-//     return gateData, gateSymbol, gateArray, matchedData;
-//   });
-// }
-// createGateObject();
-
-// let dhdData;
-// let dhdSymbol;
-// let dhdArray = [];
-// let dhdObject = {};
-
-// function createDhdObject() {
-//   dhdSymbols.forEach((symbol, i) => {
-//     dhdData = symbol.getAttribute('data-dhd');
-//     dhdSymbol = symbol.textContent || innerText;
-//     dhdObject = {
-//       index: i,
-//       name: dhdData,
-//       symbol: dhdSymbol,
-//       matched: false,
-//     };
-//     dhdArray.push(dhdObject);
-//     return dhdData, dhdSymbol, dhdArray;
-//   });
-// }
-// createDhdObject();
-
-// let dhdButtons = dhdArray;
-
-// let gateButtons = gateArray;
-
-// let dhdDataName = dhdData;
-
-// let gateDataName = gateData;
+// chevContainer.style.setProperty('--deg', `${chevDeg}`)

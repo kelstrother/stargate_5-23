@@ -42,19 +42,12 @@ body {
 }
 .gate-container {
   margin-block-start: 1rem;
-  /* height: 100%;
-  width: 100%; */
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-
-   --w: 40cqi;
-  /* --width: 400px;
-  --height: 400px; */
-  /* --r: calc(var(--w) / 2); */
+  --w: 40cqi;
   width: var(--w);
-  /* height: var(--w); */
   aspect-ratio: 1;
 }
 .outer-circle {
@@ -72,36 +65,17 @@ body {
   background: #485563;
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle, #29323c 61%, #566371) 100%;
-  /* overflow: visible; */
-  /* border: 6px solid #6e6e6e; */
-  /* margin: 0 auto; */
-  /* position: relative; */
-}
-.dial-gate {
-  transition: all 2s ease;
-  transform: rotate(360deg);
-  overflow: hidden;
-}
-/* #outer-circle {
-  position: absolute;
+  transition: transform 1s ease;
 }
 #chevron-circle {
-  position: absolute;
-} */
-@keyframes spin-gate {
-  to {
-    /* opacity: 1; */
-    rotate: 1turn;
-  }
+  /* display: none; */
+  background: radial-gradient(circle, #29323c 61%, #566371) 100%;
 }
-.spin {
-  /* transform: rotate(360deg); */
-  transition: all 2s ease;
-  rotate: 3turn;
+#stargate {
+  /* display: none; */
+  background: transparent;
 }
 .inner-circle {
-  /* overflow: hidden; */
   width: calc(var(--w) - 150px);
   aspect-ratio: 1;
   border: 10px solid #464f5a;
@@ -128,7 +102,7 @@ body {
   background: #464f5a;
   opacity: 1;
   position: absolute;
-  z-index: 5;
+  z-index: 150;
   pointer-events: none;
   display: flex;
   justify-content: center;
@@ -141,24 +115,21 @@ body {
   top: var(--y);
   width: var(--sz);
   --r: calc((var(--w) - var(--sz)) / 2);
-  /* left: 44.25%;
-  top: 44.25%; */
-  /* display: none; */
 }
-/* .chevron::after {
-  content: "";
+.chevron-symbol-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
-  inset: 0;
-  background: hsl(198, 39%, 42%);
-  box-shadow: 0 0 10px rgb(156, 195, 211);
-  filter: blur(10px);
-  --sz: 4.5cqi;
+  --x: calc(var(--r) + (var(--r) + 10.5px) * cos(var(--deg)));
+  --y: calc(var(--r) + (var(--r) + 10.5px) * sin(var(--deg)));
+  --sz: 3.5cqi;
   height: var(--sz);
-  width: 4.5cqi;
-  clip-path: polygon(63% 20%, 56% 38%, 44% 38%, 37% 20%);
-  z-index: 20;
-} */
-
+  left: var(--x);
+  top: var(--y);
+  width: var(--sz);
+  --r: calc((var(--w) - var(--sz)) / 2);
+}
 .inner-chevron {
   position: absolute;
   inset: 0;
@@ -217,58 +188,76 @@ body {
   --deg: 229.75deg;
   rotate: 320deg;
 }
-/* button {
-  position: absolute;
-  top: 85%;
-  right: 48%;
-  padding: 1rem;
-  position: cursor;
-  animation: none;
-} */
-
+#chev-symbol-1 {
+  --deg: 270deg;
+}
+#chev-symbol-2 {
+  --deg: 310deg;
+}
+#chev-symbol-3 {
+  --deg: 350deg;
+}
+#chev-symbol-4 {
+  --deg: 30deg;
+}
+#chev-symbol-5 {
+  --deg: 149.25deg;
+}
+#chev-symbol-6 {
+  --deg: 189.5deg;
+}
+#chev-symbol-7 {
+  --deg: 229.75deg;
+}
+.gate-symbol-activate {
+  font-size: 2rem;
+  /* color: hsl(192, 58%, 73%); */
+  color: #58deff;
+}
 /* ! GATE SYMBOLS */
 .gate-symbol-container {
-  --x: calc(var(--r) + ((var(--r) + 10px) * cos(var(--d))));
-  --y: calc(var(--r) + ((var(--r) + 10px) * sin(var(--d))));
-  --sz: 3.5cqi;
-  --r: calc((var(--w) - var(--sz)) / 2);
-  height: var(--sz);
-  width: var(--sz);
-  left: var(--x);
-  top: var(--y);
+  --gsX: calc(var(--r) + ((var(--r) + 10px) * cos(var(--d))));
+  --gsY: calc(var(--r) + ((var(--r) + 10px) * sin(var(--d))));
+  --gsSize: 3.5cqi;
+  --r: calc((var(--w) - var(--gsSize)) / 2);
+  height: var(--gsSize);
+  width: var(--gsSize);
+  left: var(--gsX);
+  top: var(--gsY);
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* left: 44.25%;
-  top: 44.25%; */
-  /* border-left: 1px solid #fff; */
-  /* width: 11.75%;
-  height: 11.8%;
-  transform: rotateZ(calc((var(--nth-child) + 17) * calc(360 / 36) * 1deg))
-    translateY(390%)
-    rotateZ(calc((var(--nth-child) + 6) * calc(360 / 36) * -1deg)); */
+  transition: all 2.5s 1s ease-in-out alternate;
 }
-/* .gate-symbol-container::after {
-  content: "";
-  inset: 0;
-  margin-inline: 15%;
-  margin-block: 18%;
-  position: absolute;
-  z-index: 5;
-  transform-origin: center center;
-  border-left: 1px solid #666;
-  transform: rotateZ(calc((var(--nth-child) + 6.5) * calc(360 / 36) * 1deg));
-} */
 .gate-symbols {
   font-family: var(--pegasus);
   font-size: 1.7rem;
-  color: hsl(0, 0%, 51%);
-  /* transform: rotateZ(-90deg); */
-  /* transform: rotateZ(calc((var(--nth-child) + 17) * calc(360 / 36) * -0.6deg)); */
-  /* transition: transform 2s ease; */
+  color: hsl(192, 58%, 13%);
 }
-
+@keyframes rotateDial {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(var(--symDeg));
+  }
+}
+.chevron-symbol {
+  color: #58deff;
+  z-index: 100;
+}
+.active-chev-symbol {
+  animation: activeSymbol 0s 2s ease;
+}
+@keyframes activeSymbol {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 /* ! DHD */
 .dhd-container {
   position: absolute;
@@ -333,21 +322,9 @@ body {
   }
 }
 .chevron-locked {
-  /* animation: chevronEncoded 0.25s ease-in-out forwards; */
   filter: brightness(125%);
-  /* background: linear-gradient(
-    to top,
-    hsl(198, 39%, 38%),
-    hsl(195, 39%, 33%),
-    hsl(198, 39%, 30%)
-  ); */
-  /* box-shadow: -5px 5px 30px 3px rgba(117, 167, 189, 0.9); */
 }
-.gate-symbol-activate {
-  font-size: 2rem;
-  color: #58deff;
-  text-shadow: -0.5px -0.5px 10px rgba(122, 228, 254, 0.7);
-}
+
 .gate-activated {
   background: #02fef1de;
   background-image: url('./assets/wormhole.png');
