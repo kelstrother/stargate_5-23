@@ -40,6 +40,11 @@ body {
   overflow: hidden;
   position: relative;
 }
+/* ~ ////////////////////// /////*/
+/* ~ ////////////////////// /////*/
+/* !          THE GATE            /*/
+/* ~ ////////////////////// //////*/
+/* ~ ////////////////////// //////*/
 .gate-container {
   margin-block-start: 1rem;
   display: flex;
@@ -65,14 +70,15 @@ body {
   background: #485563;
   position: absolute;
   inset: 0;
-  transition: transform 1s ease;
 }
-#chevron-circle {
-  /* display: none; */
+#spinning-gate {
   background: radial-gradient(circle, #29323c 61%, #566371) 100%;
 }
+.spin-chevron-gate {
+  transform: rotate(1turn);
+  transition: transform 1.25s ease-in-out;
+}
 #stargate {
-  /* display: none; */
   background: transparent;
 }
 .inner-circle {
@@ -102,7 +108,7 @@ body {
   background: #464f5a;
   opacity: 1;
   position: absolute;
-  z-index: 150;
+  z-index: 100;
   pointer-events: none;
   display: flex;
   justify-content: center;
@@ -116,7 +122,27 @@ body {
   width: var(--sz);
   --r: calc((var(--w) - var(--sz)) / 2);
 }
-.chevron-symbol-container {
+.placeholder-container {
+  z-index: 100;
+  --gsX: calc(var(--r) + ((var(--r) + 10px) * cos(var(--d))));
+  --gsY: calc(var(--r) + ((var(--r) + 10px) * sin(var(--d))));
+  --gsSize: 3.5cqi;
+  --r: calc((var(--w) - var(--gsSize)) / 2);
+  height: var(--gsSize);
+  width: var(--gsSize);
+  left: var(--gsX);
+  top: var(--gsY);
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.placeholder-symbol {
+  font-family: var(--pegasus);
+  font-size: 1.7rem;
+  color: hsl(192, 100%, 7%);
+}
+.locked-symbol-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -132,25 +158,18 @@ body {
 }
 .inner-chevron {
   position: absolute;
+  z-index: 150;
   inset: 0;
-  background: hsl(198, 39%, 42%);
+  background: hsl(198, 39%, 12%);
   box-shadow: 0 0 10px rgb(156, 195, 211);
   filter: blur(10px);
   --sz: 4.5cqi;
   height: var(--sz);
   width: 4.5cqi;
   clip-path: polygon(63% 20%, 56% 38%, 44% 38%, 37% 20%);
-  z-index: 20;
+  /* z-index: 20; */
 }
-#ic-1,
-#ic-2,
-#ic-3,
-#ic-4,
-#ic-5,
-#ic-6,
-#ic-7 {
-  opacity: 0;
-}
+
 #c-1 {
   --deg: 270deg;
 }
@@ -209,47 +228,17 @@ body {
 #chev-symbol-7 {
   --deg: 229.75deg;
 }
-.gate-symbol-activate {
-  font-size: 2rem;
-  /* color: hsl(192, 58%, 73%); */
-  color: #58deff;
-}
-/* ! GATE SYMBOLS */
-.gate-symbol-container {
-  --gsX: calc(var(--r) + ((var(--r) + 10px) * cos(var(--d))));
-  --gsY: calc(var(--r) + ((var(--r) + 10px) * sin(var(--d))));
-  --gsSize: 3.5cqi;
-  --r: calc((var(--w) - var(--gsSize)) / 2);
-  height: var(--gsSize);
-  width: var(--gsSize);
-  left: var(--gsX);
-  top: var(--gsY);
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 2.5s 1s ease-in-out alternate;
-}
-.gate-symbols {
+/* ~ ////////////////////// /////*/
+/* !      GATE SYMBOLS           /*/
+/* ~ ////////////////////// //////*/
+.locked-symbol {
   font-family: var(--pegasus);
   font-size: 1.7rem;
-  color: hsl(192, 58%, 13%);
-}
-@keyframes rotateDial {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(var(--symDeg));
-  }
-}
-.chevron-symbol {
   color: #58deff;
   z-index: 100;
+  animation: activeSymbol 1.2s ease;
 }
-.active-chev-symbol {
-  animation: activeSymbol 0s 2s ease;
-}
+
 @keyframes activeSymbol {
   from {
     opacity: 0;
@@ -287,13 +276,6 @@ body {
     85%;
   border: 0;
 }
-.dial-address {
-  padding: 2rem;
-  position: absolute;
-  top: 70%;
-  left: -30%;
-  display: none;
-}
 /* ! JS CLASSES */
 .activate {
   font-size: 2.5rem;
@@ -308,30 +290,32 @@ body {
     100%;
   box-shadow: -5px 5px 30px 3px rgba(117, 167, 189, 0.9);
 }
-@keyframes chevronEncoded {
-  from {
-    opacity: 0.9;
-  }
-  50% {
-    opacity: 1;
-    /* translate: 5px 5px; */
-  }
-  to {
-    opacity: 0.9;
-    scale: 1;
-  }
-}
 .chevron-locked {
+  background: hsl(198, 39%, 62%);
   filter: brightness(125%);
 }
-
+.hide-symbol {
+  display: none;
+}
 .gate-activated {
-  background: #02fef1de;
   background-image: url('./assets/wormhole.png');
   background-size: 105%;
   background-position-x: 50%;
   background-position-y: 50%;
-  background-blend-mode: multiply;
+  animation: wormhole 0.5s ease-in-out;
+  /* background: #02fef1de; */
+  /* background-blend-mode: multiply; */
+}
+@keyframes wormhole {
+  from {
+    scale: 1;
+  }
+  50% {
+    scale: 1.2;
+  }
+  to {
+    scale: 1;
+  }
 }
 /* ~ BACKGROUND DESIGN */
 .column-container {
