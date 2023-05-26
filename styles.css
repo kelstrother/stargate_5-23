@@ -42,6 +42,83 @@ body {
 }
 /* ~ ////////////////////// /////*/
 /* ~ ////////////////////// /////*/
+/* !          ADDRESS BOOK            /*/
+/* ~ ////////////////////// //////*/
+/* ~ ////////////////////// //////*/
+/* .address-book-container {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: auto;
+} */
+.btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-block-start: 3rem;
+}
+.address-book-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #3b3b3ba7;
+  backdrop-filter: blur(10px);
+  width: max-content;
+  height: auto;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 1rem;
+  border-radius: 10px;
+  z-index: 200;
+  opacity: 0;
+  transition: all .25s ease-in-out;
+}
+.show-address-book {
+  opacity: 1;
+}
+.gate-addresses {
+  list-style: none;
+  text-align: center;
+  color: hsl(198, 39%, 42%);
+}
+.address {
+  font-size: 2rem;
+}
+.address span {
+  font-family: var(--pegasus);
+}
+button {
+  cursor: pointer;
+}
+.close {
+  color: hsl(198, 39%, 42%);
+  background: transparent;
+  border: 0;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  border-radius: 10px;
+}
+.show-address-btn {
+  position: absolute;
+  right: 200px;
+  top: 2rem;
+  background: #3e686936;
+  color: rgb(34, 97, 91);
+  border: 1px solid #485563;
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  border-radius: 10px;
+}
+/* ~ ////////////////////// /////*/
+/* ~ ////////////////////// /////*/
 /* !          THE GATE            /*/
 /* ~ ////////////////////// //////*/
 /* ~ ////////////////////// //////*/
@@ -294,6 +371,10 @@ body {
   background: hsl(198, 39%, 62%);
   filter: brightness(125%);
 }
+.invalid-gate {
+  background: hsl(0, 56%, 40%);
+  filter: brightness(125%);
+}
 .hide-symbol {
   display: none;
 }
@@ -302,19 +383,38 @@ body {
   background-size: 105%;
   background-position-x: 50%;
   background-position-y: 50%;
-  animation: wormhole 0.5s ease-in-out;
-  /* background: #02fef1de; */
-  /* background-blend-mode: multiply; */
+  animation: wormhole 4s ease-in;
+}
+.gate-failed {
+  animation: gateFailed .3s ease-in-out;
+}
+@keyframes gateFailed {
+  from {
+    transform: translateX(1rem);
+  }
+  25% {
+    transform: translateX(-1rem);
+  }
+  50% {
+    transform: translateX(.5rem);
+  }
+  75% {
+    transform: translateX(-.5rem);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 @keyframes wormhole {
-  from {
+  /* from {
     scale: 1;
   }
   50% {
     scale: 1.2;
-  }
+  } */
   to {
-    scale: 1;
+    transform: rotate(50turn);
+    scale: 1.2;
   }
 }
 /* ~ BACKGROUND DESIGN */

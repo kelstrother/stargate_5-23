@@ -27,11 +27,39 @@ const lockedContainers = [
 ];
 const reservedSymbol = document.getElementById('1');
 const dhdContainer = document.querySelector('.dhd-container');
+const showAddressBtn = document.querySelector('.show-address-btn');
+const addressBook = document.querySelector('.address-book-container');
+const closeAddressBtn = document.querySelector('.close');
+
+let dialedAddress = [];
+let hideSymbol;
+let idNum;
+let world;
+let gateAddress;
+let dialedSymbol;
+let matchedGateSymbol;
+let lockedSymbol;
+let chevDeg;
+let lockedChevron;
+
+//~ //////////////////////
+//!      GATE ADDRESS BOOK      ||
+//~ //////////////////////
+
+//, THE POINT OF ORIGIN SYMBOL (LAST IN GATE ADDRESS) FOR PEGASUS IS GILLTIN (E) 
+
+const gateAddressBook = [
+  { world: 'Earth', gateAddress: ['o', 'q', 'H', 'p', 'G', 'J', 'r'] },
+];
+
+gateAddressBook.forEach((address, i) => {
+  world = gateAddressBook[i].world;
+  gateAddress = JSON.stringify(gateAddressBook[i].gateAddress);
+});
 
 //~ //////////////////////
 //!       BUILDING  DHD      ||
 //~ //////////////////////
-
 placeholderContainers.forEach((container, i) => {
   const symbolName = container.dataset.gate;
   const symbolText = container.firstElementChild.textContent;
@@ -43,11 +71,7 @@ placeholderContainers.forEach((container, i) => {
   dhdContainer.appendChild(dhdDial);
   return dhdDial;
 });
-
 const dhdSymbols = [...document.querySelectorAll('.dhd-btn')];
-
-let hideSymbol;
-let idNum;
 
 placeholderSymbols.forEach((symbol, i) => {
   hideSymbol = placeholderSymbols[i];
@@ -56,13 +80,11 @@ placeholderSymbols.forEach((symbol, i) => {
 });
 
 let index = 0;
-
 //~ //////////////////////
-//!       DIALING  DHD      ||
+//!       DIALING  DHD                                                      ||
 //~ //////////////////////
-
 function dialing(e) {
-  let dialedSymbol = e.target;
+  dialedSymbol = e.target;
   hideSymbol.setAttribute('data-id', index);
   placeholderSymbols.forEach((symbol, i) => {
     matchedGateSymbol = placeholderSymbols[i];
@@ -77,34 +99,24 @@ function dialing(e) {
         createLockedSymbol();
         animateLockedSymbol();
         dialedSymbol.classList.add('activate');
-        dialedAddress.push(lockedSymbol);
+        dialedAddress.push(lockedSymbol.textContent);
         return;
       }
     }
   });
   if (dialedAddress.length === chevrons.length) {
-    lockedAddress.push(...dialedAddress);
-    setTimeout(() => {
-      wormhole.classList.add('gate-activated');
-    }, 1100);
-    return lockedAddress;
+    addAddressToStorage(dialedAddress);
+    gateTravel();
+    clearGateRoom();
   }
+  return;
 }
-let lockedAddress = [];
-let matchedGateSymbol;
-let dialedAddress = [];
-let lockedSymbol;
-let chevDeg;
-let lockedChevron;
-let ic = 'ic-' + index.toString();
-let lockedInnerChevron = document.getElementById(ic);
 
 function animateLockedSymbol() {
   reserveSpot();
   lockedSymbol = document.getElementById('locked-symbol-' + index);
   lockedSymbol.style.setProperty('--deg', `${chevDeg}`);
   spinningGate.classList.add('spin-chevron-gate');
-
   document.body.style.pointerEvents = 'none';
   setTimeout(() => {
     document.body.style.pointerEvents = 'auto';
@@ -113,6 +125,9 @@ function animateLockedSymbol() {
   return;
 }
 
+//~ /////////////////////////////////////
+//!        REMOVE SYMBOL TO BE REPLACED BY DIALED SYMBOL         \\
+//~ /////////////////////////////////////
 function reserveSpot() {
   if (index === 1) {
     document.getElementById('1').classList.add('hide-symbol');
@@ -149,7 +164,11 @@ function reserveSpot() {
     }
   }
 }
-
+//~ /////////////////////////////////////
+//!        LOCK CHEVRON ENCODERS         \\
+//~ /////////////////////////////////////
+let ic = 'ic-' + index.toString();
+let lockedInnerChevron = document.getElementById(ic);
 function chevronLocked() {
   lockedContainer = document.getElementById('csc-' + index.toString());
   let id = 'c-' + index.toString();
@@ -157,13 +176,16 @@ function chevronLocked() {
   lockedChevron = document.getElementById(id);
   let chevronDegree = getComputedStyle(lockedChevron);
   chevDeg = chevronDegree.getPropertyValue('--deg');
-  let lockedInnerChevron = document.getElementById(ic);
+  lockedInnerChevron = document.getElementById(ic);
   setTimeout(() => {
     lockedInnerChevron.classList.add('chevron-locked');
   }, 1300);
   return;
 }
 
+//~ /////////////////////////////////////
+//!        CREATE DIALED SYMBOL         \\
+//~ /////////////////////////////////////
 function createLockedSymbol() {
   const lockedSymbolContainer = document.createElement('div');
   lockedSymbolContainer.setAttribute('id', 'lsc-' + index.toString());
@@ -178,8 +200,95 @@ function createLockedSymbol() {
   lockedSymbolContainer.appendChild(activatedSymbol);
   return;
 }
-
+//~ /////////////////////////////////////
+//!        TRAVEL TO DIALED ADDRESS         \\
+//~ /////////////////////////////////////
+function gateTravel() {
+  if (addAddressToStorage && JSON.stringify(dialedAddress) === gateAddress) {
+    setTimeout(() => {
+      wormhole.classList.add('gate-activated');
+    }, 1200);
+    setTimeout(() => {
+      window.location.href = './earth.html';
+    }, 3400);
+  } else {
+    setTimeout(() => {
+      innerChevrons.forEach((chevron) => {
+        chevron.classList.add('invalid-gate');
+        stargate.classList.add('gate-failed');
+        spinningGate.classList.add('gate-failed');
+      });
+    }, 1400);
+  }
+}
+//~ /////////////////////////////////////
+//!        ADD LOCKED ADDRESSES         \\
+//~ /////////////////////////////////////
+function addAddressToStorage(dialedAddress) {
+  const addressesFromStorage = getAddressesFromStorage();
+  addressesFromStorage.push(dialedAddress);
+  localStorage.setItem('addresses', JSON.stringify(addressesFromStorage));
+}
+//~ /////////////////////////////////////
+//!        GET STORED LOCKED ADDRESSES         \\
+//~ /////////////////////////////////////
+function getAddressesFromStorage() {
+  let addressesFromStorage;
+  if (localStorage.getItem('addresses') === null) {
+    addressesFromStorage = [];
+  } else {
+    addressesFromStorage = JSON.parse(localStorage.getItem('addresses'));
+  }
+  return addressesFromStorage;
+}
+//~ /////////////////////////////////////
+//!         CLEAR THE UI                   \\
+//~ /////////////////////////////////////
+function clearGateRoom() {
+  if (addAddressToStorage) {
+    setTimeout(() => {
+      dhdSymbols.forEach((dhd) => {
+        dhd.classList.remove('activate');
+      });
+      innerChevrons.forEach((chevron) => {
+        chevron.classList.remove('chevron-locked', 'invalid-gate');
+      });
+      placeholderSymbols.forEach((symbol) => {
+        symbol.classList.remove('matched', 'hide-symbol');
+      });
+      const locked = document.querySelectorAll('.locked-symbol');
+      locked.forEach((lock) => (lock.style.display = 'none'));
+      wormhole.classList.remove('gate-activated');
+    }, 3500);
+  }
+}
 //~ /////////////////////////////////////
 //!         EVENT LISTENERS         \\
 //~ /////////////////////////////////////
 dhdSymbols.forEach((dhdSymbol) => dhdSymbol.addEventListener('click', dialing));
+showAddressBtn.addEventListener('click', () => {
+  addressBook.classList.add('show-address-book');
+});
+closeAddressBtn.addEventListener('click', () =>
+  addressBook.classList.remove('show-address-book')
+);
+
+//~ //////////////////////
+//!       DISPLAY DIALED ADDRESSES      ||
+//~ //////////////////////
+// function displayDialedAddresses() {
+//   const addressesFromStorage = getAddressesFromStorage();
+//   addressesFromStorage.forEach((address) => addAddressToDOM(address))
+// }
+// displayDialedAddresses()
+
+//~ //////////////////////
+//!       CREATING DOM ADDRESS      ||
+//~ //////////////////////
+// function addAddressToDOM(address) {
+//   const addressLine = document.createElement('p');
+//   addressLine.style.color = 'white';
+//   addressLine.style.fontSize = '2rem';
+//   addressLine.appendChild(document.createTextNode(address));
+//   document.body.appendChild(addressLine);
+// }
