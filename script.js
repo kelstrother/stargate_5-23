@@ -31,7 +31,9 @@ const dhdContainer = document.querySelector('.dhd-container');
 const showAddressBtn = document.querySelector('.show-address-btn');
 const addressBook = document.querySelector('.address-book-container');
 const closeAddressBtn = document.querySelector('.close');
-const bydo = document.getElementById('2');
+const translateBtn = document.querySelector('.show-nums');
+const address = document.querySelector('.address');
+// const bydo = document.getElementById('2');
 
 let dialedAddress = [];
 let hideSymbol;
@@ -50,38 +52,58 @@ let lockedChevron;
 //, THE POINT OF ORIGIN SYMBOL (LAST IN GATE ADDRESS) FOR PEGASUS IS GILLTIN (E)
 
 const gateAddressBook = [
-  { world: 'Earth', gateAddress: ['o', 'q', 'H', 'p', 'G', 'J', 'r'] },
-  { world: 'Asuras', gateAddress: ['g', 'f', 'k', 's', 'I', 'j', 'E'] },
-  { world: 'Athos', gateAddress: ['p', 'i', 's', 'F', 'A', 'u', 'E'] },
-  { world: "Ford's Planet", gateAddress: ['a', 'n', '?', 'm', '?', '?', 'E'] },
-  { world: 'Geni Homeworld', gateAddress: ['G', 'q', 'l', 'c', 'v', 'h', 'E'] },
-  { world: 'Hoff', gateAddress: ['s', 'c', 'a', 'F', 'q', 'r', 'E'] },
-  { world: 'Lantea', gateAddress: ['w', 'J', 'l', 'y', 'a', 'g', 'E'] },
-  {
+  { reference: 'earth', world: 'Earth', gateAddress: ['o', 'q', 'H', 'p', 'G', 'J', 'r'] },
+  { reference: 'asuras', world: 'Asuras', gateAddress: ['g', 'f', 'k', 's', 'I', 'j', 'E'] },
+  { reference: 'athos', world: 'Athos', gateAddress: ['p', 'i', 's', 'F', 'A', 'u', 'E'] },
+  { reference: 'fords-planet', world: "Ford's Planet", gateAddress: ['a', 'n', '?', 'm', '?', '?', 'E'] },
+  { reference: 'genii', world: 'Genii Homeworld', gateAddress: ['G', 'q', 'l', 'c', 'v', 'h', 'E'] },
+  { reference: 'hoff', world: 'Hoff', gateAddress: ['s', 'c', 'a', 'F', 'q', 'r', 'E'] },
+  { reference: 'lantea', world: 'Lantea', gateAddress: ['w', 'J', 'l', 'y', 'a', 'g', 'E'] },
+  { reference: 'lord-protector',
     world: "Lord Protector's Planet",
     gateAddress: ['t', 'o', 'w', 'e', 'r', '?', 'E'],
   },
-  {
+  { reference: 'lucius',
     world: "Lucius's Planet",
     gateAddress: ['g', 'h', 'j', 'f', 'u', 'n', 'E'],
   },
-  { world: 'M4D-058', gateAddress: ['s', 'a', 'l', 'k', 'm', 'h', 'E'] },
-  { world: 'Olesia', gateAddress: ['g', 'o', 't', 'e', 'a', 'm', 'E'] },
-  { world: 'Sateda', gateAddress: ['g', 'm', 'n', 'q', 'u', 's', 'E'] },
-  { world: 'Taranis', gateAddress: ['t', 'm', 'a', 'r', 'n', 'i', 'E'] },
+  { reference: 'm4d-058', world: 'M4D-058', gateAddress: ['s', 'a', 'l', 'k', 'm', 'h', 'E'] },
+  { reference: 'olesia', world: 'Olesia', gateAddress: ['g', 'o', 't', 'e', 'a', 'm', 'E'] },
+  { reference: 'sateda', world: 'Sateda', gateAddress: ['g', 'm', 'n', 'q', 'u', 's', 'E'] },
+  { reference: 'taranis', world: 'Taranis', gateAddress: ['t', 'm', 'a', 'r', 'n', 'i', 'E'] },
   //~ shadow monster planet
-  { world: 'M4X-337', gateAddress: ['t', 'r', 'q', 'o', 'C', 'B', 'E'] },
+  { reference: 'shadow', world: 'M4X-337', gateAddress: ['t', 'r', 'q', 'o', 'C', 'B', 'E'] },
 ];
-
-
-function getAddressBook() {
-  gateAddressBook.forEach((address, i) => {
-    world = gateAddressBook[i].world;
-    gateAddress = JSON.stringify(gateAddressBook[i].gateAddress);
+function buildAddressBook() {
+  gateAddressBook.forEach((address) => {
+    const addressBook = document.querySelector('.address-book-container')
+    const div = document.createElement('div');
+    div.classList.add('address-line');
+    const planet = document.createElement('div');
+    planet.classList.add('world')
+    planet.innerText = address.world
+    const planetAddress = document.createElement('div')
+    planetAddress.classList.add('address')
+    planetAddress.innerText = address.gateAddress;
+    
+    div.appendChild(planet);
+    div.appendChild(planetAddress)
+    addressBook.appendChild(div);
     return;
-  });
+  })
+  const btn = document.createElement('button');
+  btn.classList.add('close');
+  btn.innerText = 'close';
+  const btnDiv = document.createElement('div');
+  btnDiv.classList.add('btn-container');
+  btnDiv.appendChild(btn);
+  // btnDiv.appendChild(numBtn);
+  addressBook.appendChild(btnDiv)
+  btn.addEventListener('click', () => {
+    addressBook.classList.remove('show-address-book');
+    translateBtn.style.opacity = '0'
+  })
 }
-// getAddressBook()
 
 //~ //////////////////////
 //!       BUILDING  DHD      ||
@@ -136,8 +158,8 @@ function getMatch() {
   });
   if (dialedAddress.length === chevrons.length) {
     addAddressToStorage(dialedAddress);
-    console.log('dialed: ', dialedAddress);
-    gateTravel();
+    referenceDatabase()
+    addressDatabase();
   }
 }
 
@@ -146,24 +168,20 @@ function dialOut(e) {
   if (e.type === 'click') {
     dialedSymbol = e.target;
     getMatch();
-  } else {
-    if (e.type === 'keypress') {
-      key = e.key;
-      dhdSymbols.forEach((symbol) => {
-        if (key === symbol.innerText) {
-          dialedSymbol = symbol;
-        }
-      });
-      getMatch();
-    }
+  } else if (e.type === 'keypress') {
+    key = e.key;
+    dhdSymbols.forEach((symbol) => {
+      if (key === symbol.innerText) {
+        dialedSymbol = symbol;
+      }
+    });
+    getMatch();
   }
   return;
 }
 
 function animateLockedSymbol() {
-  // console.log('index 5: ', index);
   createLockedGate();
-  // console.log('index 6: ', index);
   lockedSymbolID = document.getElementById('locked-symbol-' + index);
   lockedSymbolID.style.setProperty('--deg', chevDeg);
   lockedSymbolContainerID = document.getElementById(`lsc-${index}`);
@@ -276,58 +294,72 @@ function createLockedGate() {
   gateContainer.appendChild(lockedGate);
   return;
 }
-
 //~ /////////////////////////////////////
 //!        TRAVEL TO DIALED ADDRESS         \\
 //~ /////////////////////////////////////
-function gateTravel() {
-  const gateOpen = new Audio('./assets/sound/gate_open_atlantis.mp3');
+let gateAddressMatched;
+function referenceDatabase() {
+  for (let i = 0; i < gateAddressBook.length; i++) {
+    gateAddress = gateAddressBook[i].gateAddress;
+    gateWorld = gateAddressBook[i].world;
+    if (JSON.stringify(dialedAddress) === JSON.stringify(gateAddress)) {
+      gateAddressMatched = true;
+    }
+  }
+  return gateAddressMatched;
+}
 
-  gateAddressBook.forEach((address, i) => {
-    world = gateAddressBook[i].world;
-    gateAddress = JSON.stringify(gateAddressBook[i].gateAddress);
-  });
-  if (JSON.stringify(dialedAddress) == gateAddress) {
-    console.log(
-      'dialed: ',
-      JSON.stringify(dialedAddress),
-      'obj address: ',
-      gateAddress
-    );
-    setTimeout(() => {
-      gateOpen.play();
-      wormhole.classList.add('gate-activated');
-    }, 1300);
-    setTimeout(() => {
-      const gateTravel = new Audio('./assets/sound/gate_travel.mp3');
-      gateTravel.play();
-    }, 1500);
-    setTimeout(() => {
-      window.location.href = './earth.html';
-    }, 5200);
-  } else {
-    // if (JSON.stringify(dialedAddress) !== gateAddress) {
-    console.log(
-      'dialed: ',
-      JSON.stringify(dialedAddress),
-      'obj address: ',
-      gateAddress
-    );
+let gateWorld;
+let reference;
+function addressDatabase() {
+  for (let i = 0; i < gateAddressBook.length; i++) {
+    gateAddress = gateAddressBook[i].gateAddress;
+    gateWorld = gateAddressBook[i].world;
+    reference = gateAddressBook[i].reference;
+  // console.log(JSON.stringify(dialedAddress) == JSON.stringify(gateAddress));
+  if (JSON.stringify(dialedAddress) == JSON.stringify(gateAddress)) {
+    console.log('address match! ', gateWorld);
+    gateAddressMatched = true;
+    gateTravel();
+    break;
+  } 
+  }
+  if (!gateAddressMatched) {
+    gateFail();
+  }
+  return
+}
 
+function gateFail() {
     const gateFail = new Audio('./assets/sound/dial_fail_atlantis.mp3');
     setTimeout(() => {
       gateFail.play();
       innerChevrons.forEach((chevron) => {
         chevron.classList.add('invalid-gate');
-        stargate.classList.add('gate-failed');
-        spinningGate.classList.add('gate-failed');
       });
+      stargate.classList.add('gate-failed');
+      spinningGate.classList.add('gate-failed');
     }, 1250);
     clearGateRoom();
-    // }
-  }
-  // })
+  return;
 }
+
+function gateTravel() {
+  const gateOpen = new Audio('./assets/sound/gate_open_atlantis.mp3');
+  setTimeout(() => {
+    gateOpen.play();
+    wormhole.classList.add('gate-activated');
+  }, 1300);
+  setTimeout(() => {
+    const gateTravel = new Audio('./assets/sound/gate_travel.mp3');
+    gateTravel.play();
+  }, 1500);
+  setTimeout(() => {
+    window.location.href = `./${reference}.html`;
+  }, 5200);
+  return;
+}
+
 //~ /////////////////////////////////////
 //!        ADD LOCKED ADDRESSES         \\
 //~ /////////////////////////////////////
@@ -352,10 +384,9 @@ function getAddressesFromStorage() {
 //!         CLEAR THE UI                   \\
 //~ /////////////////////////////////////
 function clearGateRoom() {
-  if (addAddressToStorage && dialedAddress === chevrons.length) {
     index = 0;
     dialedAddress = [];
-    // console.log('cleared index: ', index, dialedAddress);
+    console.log('cleared index: ', index, dialedAddress);
     setTimeout(() => {
       dhdSymbols.forEach((dhd) => {
         dhd.classList.remove('activate');
@@ -370,7 +401,7 @@ function clearGateRoom() {
       lockGate.forEach((gate) => gate.remove());
       wormhole.classList.remove('gate-activated');
     }, 2200);
-  }
+  return;
 }
 
 //~ /////////////////////////////////////
@@ -380,10 +411,14 @@ dhdSymbols.forEach((dhdSymbol) => dhdSymbol.addEventListener('click', dialOut));
 window.addEventListener('keypress', dialOut);
 showAddressBtn.addEventListener('click', () => {
   addressBook.classList.add('show-address-book');
+  translateBtn.style.opacity = '1'
 });
-closeAddressBtn.addEventListener('click', () =>
-  addressBook.classList.remove('show-address-book')
-);
+window.addEventListener('DOMContentLoaded', buildAddressBook);
+  translateBtn.addEventListener('click', () => {
+    const translateAddress = document.querySelectorAll('.address');
+    translateAddress.forEach((address) => address.classList.toggle('translate'));
+  });
+  // closeAddressBtn.addEventListener('click', () => translateBtn.style.opacity = '0')
 
 //~ //////////////////////
 //!       DISPLAY DIALED ADDRESSES      ||
