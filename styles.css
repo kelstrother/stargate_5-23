@@ -148,12 +148,33 @@ button {
   position: absolute;
   inset: 0;
 }
+.locked-gate {
+   display: flex;
+  justify-content: center;
+  align-items: center;
+  --w: 37cqi;
+  --width: 400px;
+  --height: 400px;
+  --r: calc(var(--w) / 2);
+  width: var(--w);
+  height: var(--w);
+  aspect-ratio: 1;
+  border-radius: 50%;
+
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: transparent;
+}
 #spinning-gate {
+  /* display: none; */
   background: radial-gradient(circle, #29323c 61%, #566371) 100%;
+  /* background: transparent; */
+  /* z-index: 10; */
 }
 .spin-chevron-gate {
   transform: rotate(1turn);
-  transition: transform 1.25s ease-in-out;
+  transition: transform 1.25s linear;
 }
 #stargate {
   background: transparent;
@@ -165,7 +186,19 @@ button {
   border-radius: 50%;
   background: #000;
 }
-
+/* ~ ////////////////////// /////*/
+/* !          THE LOCKED GATE            /*/
+/* ~ ////////////////////// //////*/
+#lg-1,
+#lg-2,
+#lg-3,
+#lg-4,
+#lg-5,
+#lg-6,
+#lg-7 {
+  transform: rotate(1turn);
+  transition: transform 1.25s linear alternate;
+}
 /* ! CHEVRONS */
 .chevron {
   clip-path: polygon(
@@ -244,7 +277,6 @@ button {
   height: var(--sz);
   width: 4.5cqi;
   clip-path: polygon(63% 20%, 56% 38%, 44% 38%, 37% 20%);
-  /* z-index: 20; */
 }
 
 #c-1 {
@@ -313,7 +345,6 @@ button {
   font-size: 1.7rem;
   color: #58deff;
   z-index: 100;
-  animation: activeSymbol 1.2s ease;
 }
 
 @keyframes activeSymbol {
@@ -384,6 +415,7 @@ button {
   background-position-x: 50%;
   background-position-y: 50%;
   animation: wormhole 4s ease-in;
+  z-index: 500;
 }
 .gate-failed {
   animation: gateFailed .3s ease-in-out;
@@ -406,15 +438,9 @@ button {
   }
 }
 @keyframes wormhole {
-  /* from {
-    scale: 1;
-  }
-  50% {
-    scale: 1.2;
-  } */
   to {
     transform: rotate(50turn);
-    scale: 1.2;
+    scale: 6.2;
   }
 }
 /* ~ BACKGROUND DESIGN */

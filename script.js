@@ -1,3 +1,4 @@
+const gateContainer = document.querySelector('.gate-container');
 const gateSymbols = [...document.querySelectorAll('.gate-symbols')];
 const gateSymbolContainers = [
   ...document.querySelectorAll('.gate-symbol-container'),
@@ -30,6 +31,7 @@ const dhdContainer = document.querySelector('.dhd-container');
 const showAddressBtn = document.querySelector('.show-address-btn');
 const addressBook = document.querySelector('.address-book-container');
 const closeAddressBtn = document.querySelector('.close');
+const bydo = document.getElementById('2');
 
 let dialedAddress = [];
 let hideSymbol;
@@ -38,7 +40,6 @@ let world;
 let gateAddress;
 let dialedSymbol;
 let matchedGateSymbol;
-let lockedSymbol;
 let chevDeg;
 let lockedChevron;
 
@@ -46,16 +47,41 @@ let lockedChevron;
 //!      GATE ADDRESS BOOK      ||
 //~ //////////////////////
 
-//, THE POINT OF ORIGIN SYMBOL (LAST IN GATE ADDRESS) FOR PEGASUS IS GILLTIN (E) 
+//, THE POINT OF ORIGIN SYMBOL (LAST IN GATE ADDRESS) FOR PEGASUS IS GILLTIN (E)
 
 const gateAddressBook = [
   { world: 'Earth', gateAddress: ['o', 'q', 'H', 'p', 'G', 'J', 'r'] },
+  { world: 'Asuras', gateAddress: ['g', 'f', 'k', 's', 'I', 'j', 'E'] },
+  { world: 'Athos', gateAddress: ['p', 'i', 's', 'F', 'A', 'u', 'E'] },
+  { world: "Ford's Planet", gateAddress: ['a', 'n', '?', 'm', '?', '?', 'E'] },
+  { world: 'Geni Homeworld', gateAddress: ['G', 'q', 'l', 'c', 'v', 'h', 'E'] },
+  { world: 'Hoff', gateAddress: ['s', 'c', 'a', 'F', 'q', 'r', 'E'] },
+  { world: 'Lantea', gateAddress: ['w', 'J', 'l', 'y', 'a', 'g', 'E'] },
+  {
+    world: "Lord Protector's Planet",
+    gateAddress: ['t', 'o', 'w', 'e', 'r', '?', 'E'],
+  },
+  {
+    world: "Lucius's Planet",
+    gateAddress: ['g', 'h', 'j', 'f', 'u', 'n', 'E'],
+  },
+  { world: 'M4D-058', gateAddress: ['s', 'a', 'l', 'k', 'm', 'h', 'E'] },
+  { world: 'Olesia', gateAddress: ['g', 'o', 't', 'e', 'a', 'm', 'E'] },
+  { world: 'Sateda', gateAddress: ['g', 'm', 'n', 'q', 'u', 's', 'E'] },
+  { world: 'Taranis', gateAddress: ['t', 'm', 'a', 'r', 'n', 'i', 'E'] },
+  //~ shadow monster planet
+  { world: 'M4X-337', gateAddress: ['t', 'r', 'q', 'o', 'C', 'B', 'E'] },
 ];
 
-gateAddressBook.forEach((address, i) => {
-  world = gateAddressBook[i].world;
-  gateAddress = JSON.stringify(gateAddressBook[i].gateAddress);
-});
+
+function getAddressBook() {
+  gateAddressBook.forEach((address, i) => {
+    world = gateAddressBook[i].world;
+    gateAddress = JSON.stringify(gateAddressBook[i].gateAddress);
+    return;
+  });
+}
+// getAddressBook()
 
 //~ //////////////////////
 //!       BUILDING  DHD      ||
@@ -83,9 +109,11 @@ let index = 0;
 //~ //////////////////////
 //!       DIALING  DHD                                                      ||
 //~ //////////////////////
-function dialing(e) {
-  dialedSymbol = e.target;
-  hideSymbol.setAttribute('data-id', index);
+let matchedKey;
+let key;
+let dhd = new Audio('./assets/sound/dhd_atlantis.mp3');
+
+function getMatch() {
   placeholderSymbols.forEach((symbol, i) => {
     matchedGateSymbol = placeholderSymbols[i];
     if (
@@ -95,9 +123,11 @@ function dialing(e) {
       matchedGateSymbol.classList.add('matched');
       if (index < chevrons.length) {
         index++;
+        dhd.play();
         chevronLocked();
-        createLockedSymbol();
         animateLockedSymbol();
+        lockedGateID = document.getElementById(`lg-${index}`);
+        lockedGateID.animate(spinNewGate, spinTiming);
         dialedSymbol.classList.add('activate');
         dialedAddress.push(lockedSymbol.textContent);
         return;
@@ -106,24 +136,54 @@ function dialing(e) {
   });
   if (dialedAddress.length === chevrons.length) {
     addAddressToStorage(dialedAddress);
+    console.log('dialed: ', dialedAddress);
     gateTravel();
-    clearGateRoom();
+  }
+}
+
+function dialOut(e) {
+  hideSymbol.setAttribute('data-id', index);
+  if (e.type === 'click') {
+    dialedSymbol = e.target;
+    getMatch();
+  } else {
+    if (e.type === 'keypress') {
+      key = e.key;
+      dhdSymbols.forEach((symbol) => {
+        if (key === symbol.innerText) {
+          dialedSymbol = symbol;
+        }
+      });
+      getMatch();
+    }
   }
   return;
 }
 
 function animateLockedSymbol() {
-  reserveSpot();
-  lockedSymbol = document.getElementById('locked-symbol-' + index);
-  lockedSymbol.style.setProperty('--deg', `${chevDeg}`);
-  spinningGate.classList.add('spin-chevron-gate');
+  // console.log('index 5: ', index);
+  createLockedGate();
+  // console.log('index 6: ', index);
+  lockedSymbolID = document.getElementById('locked-symbol-' + index);
+  lockedSymbolID.style.setProperty('--deg', chevDeg);
+  lockedSymbolContainerID = document.getElementById(`lsc-${index}`);
+  lockedSymbolContainerID.style.setProperty('--deg', chevDeg);
   document.body.style.pointerEvents = 'none';
+  reserveSpot();
   setTimeout(() => {
     document.body.style.pointerEvents = 'auto';
-    spinningGate.classList.remove('spin-chevron-gate');
-  }, 1250);
+  }, 1150);
   return;
 }
+
+const spinNewGate = [
+  { transform: 'rotate(0)' },
+  { transform: 'rotate(1turn)' },
+];
+const spinTiming = {
+  duration: 1150,
+  iterations: 1,
+};
 
 //~ /////////////////////////////////////
 //!        REMOVE SYMBOL TO BE REPLACED BY DIALED SYMBOL         \\
@@ -177,6 +237,10 @@ function chevronLocked() {
   let chevronDegree = getComputedStyle(lockedChevron);
   chevDeg = chevronDegree.getPropertyValue('--deg');
   lockedInnerChevron = document.getElementById(ic);
+  const lockChevron = new Audio('./assets/sound/chev_usual_3.wav');
+  setTimeout(() => {
+    lockChevron.play();
+  }, 1100);
   setTimeout(() => {
     lockedInnerChevron.classList.add('chevron-locked');
   }, 1300);
@@ -185,41 +249,84 @@ function chevronLocked() {
 
 //~ /////////////////////////////////////
 //!        CREATE DIALED SYMBOL         \\
+let lockedGate;
+let lockedGateID;
+let lockedSymbolContainer;
+let lockedSymbolContainerID;
+let lockedSymbol;
+let lockedSymbolID;
 //~ /////////////////////////////////////
-function createLockedSymbol() {
-  const lockedSymbolContainer = document.createElement('div');
+//!        CREATE NEW GATE WITH MATCHED SYMBOL PER CLICK         \\
+//~ /////////////////////////////////////
+function createLockedGate() {
+  lockedGate = document.createElement('div');
+  lockedGate.classList.add('locked-gate');
+  lockedGate.setAttribute('id', 'lg-' + index.toString());
+
+  lockedSymbolContainer = document.createElement('div');
   lockedSymbolContainer.setAttribute('id', 'lsc-' + index.toString());
   lockedSymbolContainer.classList.add('locked-symbol-container');
-  lockedSymbolContainer.style.setProperty('--deg', `${chevDeg}`);
-  const activatedSymbol = document.createElement('p');
-  activatedSymbol.classList.add('locked-symbol');
-  let chevSymbol = 'locked-symbol-' + index.toString();
-  activatedSymbol.setAttribute('id', chevSymbol);
-  activatedSymbol.innerText = matchedGateSymbol.innerText;
-  spinningGate.appendChild(lockedSymbolContainer);
-  lockedSymbolContainer.appendChild(activatedSymbol);
+
+  lockedSymbol = document.createElement('p');
+  lockedSymbol.classList.add('locked-symbol');
+  lockedSymbol.setAttribute('id', 'locked-symbol-' + index.toString());
+  lockedSymbol.innerText = matchedGateSymbol.innerText;
+  lockedSymbolContainer.appendChild(lockedSymbol);
+  lockedGate.appendChild(lockedSymbolContainer);
+  gateContainer.appendChild(lockedGate);
   return;
 }
+
 //~ /////////////////////////////////////
 //!        TRAVEL TO DIALED ADDRESS         \\
 //~ /////////////////////////////////////
 function gateTravel() {
-  if (addAddressToStorage && JSON.stringify(dialedAddress) === gateAddress) {
+  const gateOpen = new Audio('./assets/sound/gate_open_atlantis.mp3');
+
+  gateAddressBook.forEach((address, i) => {
+    world = gateAddressBook[i].world;
+    gateAddress = JSON.stringify(gateAddressBook[i].gateAddress);
+  });
+  if (JSON.stringify(dialedAddress) == gateAddress) {
+    console.log(
+      'dialed: ',
+      JSON.stringify(dialedAddress),
+      'obj address: ',
+      gateAddress
+    );
     setTimeout(() => {
+      gateOpen.play();
       wormhole.classList.add('gate-activated');
-    }, 1200);
+    }, 1300);
+    setTimeout(() => {
+      const gateTravel = new Audio('./assets/sound/gate_travel.mp3');
+      gateTravel.play();
+    }, 1500);
     setTimeout(() => {
       window.location.href = './earth.html';
-    }, 3400);
+    }, 5200);
   } else {
+    // if (JSON.stringify(dialedAddress) !== gateAddress) {
+    console.log(
+      'dialed: ',
+      JSON.stringify(dialedAddress),
+      'obj address: ',
+      gateAddress
+    );
+
+    const gateFail = new Audio('./assets/sound/dial_fail_atlantis.mp3');
     setTimeout(() => {
+      gateFail.play();
       innerChevrons.forEach((chevron) => {
         chevron.classList.add('invalid-gate');
         stargate.classList.add('gate-failed');
         spinningGate.classList.add('gate-failed');
       });
-    }, 1400);
+    }, 1250);
+    clearGateRoom();
+    // }
   }
+  // })
 }
 //~ /////////////////////////////////////
 //!        ADD LOCKED ADDRESSES         \\
@@ -245,7 +352,10 @@ function getAddressesFromStorage() {
 //!         CLEAR THE UI                   \\
 //~ /////////////////////////////////////
 function clearGateRoom() {
-  if (addAddressToStorage) {
+  if (addAddressToStorage && dialedAddress === chevrons.length) {
+    index = 0;
+    dialedAddress = [];
+    // console.log('cleared index: ', index, dialedAddress);
     setTimeout(() => {
       dhdSymbols.forEach((dhd) => {
         dhd.classList.remove('activate');
@@ -256,16 +366,18 @@ function clearGateRoom() {
       placeholderSymbols.forEach((symbol) => {
         symbol.classList.remove('matched', 'hide-symbol');
       });
-      const locked = document.querySelectorAll('.locked-symbol');
-      locked.forEach((lock) => (lock.style.display = 'none'));
+      const lockGate = document.querySelectorAll('.locked-gate');
+      lockGate.forEach((gate) => gate.remove());
       wormhole.classList.remove('gate-activated');
-    }, 3500);
+    }, 2200);
   }
 }
+
 //~ /////////////////////////////////////
 //!         EVENT LISTENERS         \\
 //~ /////////////////////////////////////
-dhdSymbols.forEach((dhdSymbol) => dhdSymbol.addEventListener('click', dialing));
+dhdSymbols.forEach((dhdSymbol) => dhdSymbol.addEventListener('click', dialOut));
+window.addEventListener('keypress', dialOut);
 showAddressBtn.addEventListener('click', () => {
   addressBook.classList.add('show-address-book');
 });
