@@ -1,0 +1,23 @@
+{
+  "name": "stargate_23",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kelstrother/stargate_5-23.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kelstrother/stargate_5-23/issues"
+  },
+  "homepage": "https://github.com/kelstrother/stargate_5-23#readme",
+  "dependencies": {
+    "animejs": "^3.2.1"
+  }
+}
