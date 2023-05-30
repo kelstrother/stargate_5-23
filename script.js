@@ -152,6 +152,7 @@ function buildAddressBook() {
   btn.addEventListener('click', () => {
     addressBook.classList.remove('show-address-book');
     translateBtn.style.opacity = '0';
+    dhdSymbols.forEach(symbol => symbol.setAttribute('id', ''))
   });
 }
 
@@ -366,9 +367,7 @@ function addressDatabase() {
     gateAddress = gateAddressBook[i].gateAddress;
     gateWorld = gateAddressBook[i].world;
     reference = gateAddressBook[i].reference;
-    // console.log(JSON.stringify(dialedAddress) == JSON.stringify(gateAddress));
     if (JSON.stringify(dialedAddress) == JSON.stringify(gateAddress)) {
-      console.log('address match! ', gateWorld);
       gateAddressMatched = true;
       gateTravel();
       break;
@@ -389,9 +388,30 @@ function gateFail() {
     });
     stargate.classList.add('gate-failed');
     spinningGate.classList.add('gate-failed');
+    lockedSymbol.classList.add('gate-failed');
   }, 1250);
   clearGateRoom();
   return;
+}
+
+
+function getRandomColor() {
+  const hb = 204;
+  let s = Math.floor(Math.random() * 107);
+  let l = Math.floor(Math.random() * 80);
+  const a = 0.1;
+  let randomBlue = `hsla(${hb}, ${s}%, ${l}%, ${a})`;
+  return randomBlue;
+}
+function getRandomWhite() {
+  const hb = 0;
+  const sf = 100;
+  let s = Math.floor(Math.random() * 100);
+  let l = Math.floor(Math.random() * 100);
+  const lf = 100;
+  const a = 0.25;
+  let randomWhite = `hsla(${hb}, ${sf}%, ${lf}%, ${a})`;
+  return randomWhite;
 }
 
 function gateTravel() {
@@ -399,13 +419,20 @@ function gateTravel() {
   setTimeout(() => {
     gateOpen.play();
     wormhole.classList.add('gate-activated');
-    wormhole.setAttribute('id', 'base-wormhole')
+    wormhole.setAttribute('id', 'base-wormhole');
+    base = document.querySelector('.base');
     Array.from({ length: 20 }).forEach(() => {
       const div = document.createElement('div');
-      div.classList.add('wormhole-circle');
+      div.classList.add('wormhole-circle', 'forwards');
       const blue = getRandomColor();
-      div.style.borderColor = blue;
-      div.style.animation = 'wormhole 5s ease-in';
+      const white = getRandomWhite();
+      let odd = document.querySelectorAll('.wormhole-circle :nth-of-type(odd)');
+      div.style.border = `5px groove ${white}`;
+      div.style.background = blue;
+      odd.forEach((every) => {
+        every.classList.remove('forwards');
+        every.classList.add('reverse');
+      });
       base.appendChild(div);
       base = div;
     });
@@ -414,9 +441,9 @@ function gateTravel() {
     const gateTravel = new Audio('./assets/sound/gate_travel.mp3');
     gateTravel.play();
   }, 1500);
-  // setTimeout(() => {
-  //   window.location.href = `./${reference}.html`;
-  // }, 5200);
+  setTimeout(() => {
+    window.location.href = `./${reference}.html`;
+  }, 7500);
   return;
 }
 
@@ -463,31 +490,6 @@ function clearGateRoom() {
   }, 2200);
   return;
 }
-function getRandomColor() {
-  const h = 240;
-  let s = Math.floor(Math.random() * 100)
-  let l = Math.floor(Math.random() * 100)
-  const a = 0.7
-  let randomBlue = `hsla(${h}, ${s}%, ${l}%), ${a}`;
-
-  // const letters = '0123456789ABCDEF';
-  // let color = '#';
-  // for (let i = 0; i < 6; i++) {
-  //   color += letters[Math.floor(Math.random() * 16)];
-  // }
-  return randomBlue;
-}
-
-// let base = document.querySelector('.base');
-// function wormholeCircles() {
-//   for (let i = 0; i < 10; i++) {
-//     let hole = document.createElement('div');
-//     hole.classList.add('wormhole-circle');
-//     base.appendChild(hole);
-//     base = hole;
-//   }
-// }
-
 
 //~ /////////////////////////////////////
 //!         EVENT LISTENERS         \\
@@ -502,4 +504,8 @@ window.addEventListener('DOMContentLoaded', buildAddressBook);
 translateBtn.addEventListener('click', () => {
   const translateAddress = document.querySelectorAll('.address');
   translateAddress.forEach((address) => address.classList.toggle('translate'));
+  dhdSymbols.forEach((dhdSymbol) => {
+    console.log(dhdSymbol);
+    dhdSymbol.setAttribute('id', 'translate')
+  })
 });

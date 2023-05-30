@@ -220,22 +220,15 @@ button {
 .wormhole-circle {
   width: 95%;
   height: 95%;
-  /* width: calc(var(--w) -50px); */
-  border-radius: 38%;
-  aspect-ratio: 1;
-  border: 10px solid #464f5a;
+  z-index: -100;
+  border-radius: 48%;
   background: transparent;
-  /* opacity: .7; */
-}
-.base {
-  /* position: absolute;
-  inset: 0; */
-  /* width: 95%;
-  height: 95%; */
-  /* display: flex;
+  display: flex;
   justify-content: center;
-  align-items: center; */
+  align-items: center;
+  gap: 5vmin;
 }
+
 /* ~ ////////////////////// /////*/
 /* !          THE LOCKED GATE            /*/
 /* ~ ////////////////////// //////*/
@@ -326,7 +319,7 @@ button {
   --sz: 4.5cqi;
   height: var(--sz);
   width: 4.5cqi;
-  clip-path: polygon(63% 20%, 56% 38%, 44% 38%, 37% 20%);
+  clip-path: polygon(65% 12.5%, 55% 40%, 45% 40%, 35% 12.5%);
 }
 
 #c-1 {
@@ -434,6 +427,9 @@ button {
     85%;
   border: 0;
 }
+#translate {
+  font-family: Arial, Helvetica, sans-serif;
+}
 /* ! JS CLASSES */
 .activate {
   font-size: 2.5rem;
@@ -461,13 +457,20 @@ button {
 }
 #base-wormhole {
   background-image: url('./assets/wormhole.png');
+  opacity: 1;
   background-size: 105%;
   background-position-x: 50%;
   background-position-y: 50%;
 }
 .gate-activated {
-  animation: wormhole 4s ease-in;
+  animation: wormhole 6s ease-in;
   z-index: 500;
+}
+.forwards {
+  animation: shrink 6s ease-in;
+}
+.reverse {
+  animation: shrinkBack 6s ease-in-out;
 }
 .gate-failed {
   animation: gateFailed .3s linear;
@@ -489,10 +492,25 @@ button {
     transform: translateX(0);
   }
 }
+@keyframes shrinkBack {
+  from {
+    transform: scale(0) rotate(0);
+  }
+  to {
+    transform: scale(1.125) rotate(-8turn);
+  }
+}
+@keyframes shrink {
+  from {
+    transform: scale(0) rotate(0);
+  }
+  to {
+    transform: scale(1.125) rotate(12turn);
+  }
+}
 @keyframes wormhole {
   to {
-    transform: rotate(50turn);
-    /* scale: 6.2; */
+    transform: scale(1.2) rotate(20turn);
   }
 }
 /* ~ ////////////////////// /////*/
