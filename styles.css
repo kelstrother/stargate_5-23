@@ -34,28 +34,23 @@ body {
   height: 100vh;
   width: 100vw;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   background: #000;
   overflow: hidden;
   position: relative;
 }
+/* .atlantis-container {
+  width: 100%;
+  height: 100%;
+} */
 /* ~ ////////////////////// /////*/
 /* ~ ////////////////////// /////*/
 /* !          ADDRESS BOOK            /*/
 /* ~ ////////////////////// //////*/
 /* ~ ////////////////////// //////*/
-/* .address-book-container {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: auto;
-  height: auto;
-} */
+
 .address-book-container {
   display: flex;
   flex-direction: column;
@@ -150,12 +145,13 @@ button {
 /* ~ ////////////////////// //////*/
 /* ~ ////////////////////// //////*/
 .gate-container {
-  margin-block-start: 1rem;
+  margin-block-start: 5rem;
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* justify-content: flex-end; */
+  align-items: flex-start;
   position: relative;
-  --w: 40cqi;
+  --w: 50cqi;
   width: var(--w);
   aspect-ratio: 1;
 }
@@ -163,9 +159,9 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  --w: 37cqi;
-  --width: 400px;
-  --height: 400px;
+  --w: 32cqi;
+  --width: 300px;
+  --height: 300px;
   --r: calc(var(--w) / 2);
   width: var(--w);
   height: var(--w);
@@ -173,23 +169,22 @@ button {
   border-radius: 50%;
   background: #485563;
   position: absolute;
-  inset: 0;
+  /* inset: 0; */
 }
 .locked-gate {
    display: flex;
   justify-content: center;
   align-items: center;
-  --w: 37cqi;
-  --width: 400px;
-  --height: 400px;
+  --w: 32cqi;
+  --width: 300px;
+  --height: 300px;
   --r: calc(var(--w) / 2);
   width: var(--w);
   height: var(--w);
   aspect-ratio: 1;
   border-radius: 50%;
-
   position: absolute;
-  inset: 0;
+  /* inset: 0; */
   z-index: 10;
   background: transparent;
 }
@@ -398,6 +393,94 @@ button {
     opacity: 1;
   }
 }
+/* ~ ////////////////////// /////*/
+/* !      NEW DHD           /*/
+/* ~ ////////////////////// //////*/
+
+.dhd-console {
+  position: absolute;
+  width: 900px;
+  bottom: 0;
+  left: 200px;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid red; */
+}
+.row {
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20%;
+  margin-block: -.75rem;
+}
+#submit {
+  background: hsl(31, 78%, 24%);
+}
+#row-4 .dial {
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+}
+#row-4 .dial:nth-of-type(even) {
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+#row-5 .dial {
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+}
+#row-5 .dial:nth-of-type(even) {
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+.dial {
+  font-family: var(--pegasus);
+  font-size: 2.5vmin;
+  color: rgba(204, 204, 204, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+  aspect-ratio: 1;
+  margin-inline: -1.75rem;
+  background: steelblue;
+  background: radial-gradient(circle at top,  hsl(31, 78%, 13%) 9.2%, hsl(31, 78%, 20%) 103.9% );
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+.dial:nth-of-type(even) {
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+}
+#row-1 .dial:nth-of-type(odd) > * {
+  margin-block-start: 30px;
+}
+#row-2 .dial:nth-of-type(odd) > * {
+  margin-block-start: 30px;
+}
+#row-2 .dial:nth-of-type(even) > * {
+  margin-block-start: -30px;
+}
+#row-3 .dial:nth-of-type(odd) > * {
+  margin-block-start: 30px;
+}
+#row-3 .dial:nth-of-type(even) > * {
+  margin-block-start: -30px;
+}
+#row-4 .dial:nth-of-type(odd) > * {
+  margin-block-start: -30px;
+}
+#row-4 .dial:nth-of-type(even) > * {
+  margin-block-start: 30px;
+}
+#row-5 .dial:nth-of-type(odd) > * {
+  margin-block-start: -30px;
+}
+#row-5 .dial:nth-of-type(even) > * {
+  margin-block-start: 30px;
+}
+.dhd-symbol {
+  text-align: center;
+  margin: 0 auto;
+}
+
 /* ! DHD */
 .dhd-container {
   position: absolute;
@@ -406,6 +489,7 @@ button {
   width: 85vw;
   bottom: 20px;
   left: 8%;
+  display: none;
 }
 .dhd-btn {
   display: flex;
@@ -516,7 +600,15 @@ button {
 /* ~ ////////////////////// /////*/
 /* !          JS ANIMATION CREATIONS            /*/
 /* ~ ////////////////////// //////*/
-
+/* ~ SELENIUM */
+/* background: #3C3B3F;
+background: -webkit-linear-gradient(to right, #605C3C, #3C3B3F);
+background: linear-gradient(to right, #605C3C, #3C3B3F); */
+/* ~  DARK KNIGHT */
+/* background: -webkit-linear-gradient(to right, #181818, #BA8B02);
+background: linear-gradient(to right, #181818, #BA8B02); */
+/* ~ */
+/* background-image: linear-gradient( 179deg,  rgba(0,0,0,1) 9.2%, rgba(127,16,16,1) 103.9% ); */
 /* ~ BACKGROUND DESIGN */
 .column-container {
   position: absolute;
@@ -526,8 +618,16 @@ button {
   justify-content: flex-end;
   align-items: center;
   background: #3e5151;
-  background: -webkit-linear-gradient(to right, #8e8c88 0%, #3e5151) 0%;
-  background: linear-gradient(to left, #8e8c88 -20%, #4e5353) -10%;
+background: linear-gradient(to right,  rgba(0,0,0,1) 9.2%, rgb(127, 73, 16) 103.9% );
+
+/* background: -webkit-linear-gradient(to right, #181818, #9b5e19);
+background: linear-gradient(to right, #181818, #9b5e19); */
+
+  /* background: -webkit-linear-gradient(to right, #605C3C, #3C3B3F);
+  background: linear-gradient(to right, #605C3C, #3C3B3F); */
+
+  /* background: -webkit-linear-gradient(to right, #8e8c88 0%, #3e5151) 0%;
+  background: linear-gradient(to left, #8e8c88 -20%, #4e5353) -10%; */
   height: 100vh;
 }
 .column-container:nth-child(1) {
