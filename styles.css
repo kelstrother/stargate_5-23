@@ -1,31 +1,15 @@
 @font-face {
-  font-family: 'ancient_handregular';
-  src: url('./webfontkit-20230516-185625/ancient_hand-webfont.woff2')
-      format('woff2'),
-    url('./webfontkit-20230516-185625/ancient_hand-webfont.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'stargate_sg-1_address_gnormal';
-  src: url('./webfontkit-20230516-185625/stargate_sg1_adress_glyphs-webfont.woff2')
-      format('woff2'),
-    url('./webfontkit-20230516-185625/stargate_sg1_adress_glyphs-webfont.woff')
-      format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
   font-family: 'stargate_atlantis_glyphsRg';
   src: url('./atlantis-fontkit/atlantis-glyphs-webfont.woff2') format('woff2'),
     url('./atlantis-fontkit/atlantis-glyphs-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
+@import url('https://fonts.googleapis.com/css2?family=Tsukimi+Rounded:wght@300;400;500;600;700&display=swap');
+
 :root {
   --pegasus: 'stargate_atlantis_glyphsRg';
-  --glyph: 'stargate_sg-1_address_gnormal';
-  --ancient: 'ancient_handregular';
+  --text: 'Tsukimi Rounded'
 }
 * {
   box-sizing: border-box;
@@ -72,14 +56,14 @@ body {
   opacity: 1;
 }
 .address-line {
-  padding-inline-start: 2rem;
+  padding-inline-start: 0rem;
   display: flex;
   width: 100%;
-  justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid hsl(198, 39%, 42%);
 }
 .world {
+  font-family: var(--text);
   align-items: flex-start;
   width: 35%;
 }
@@ -87,7 +71,7 @@ body {
 .address {
   display: flex;
   color: hsl(198, 39%, 42%);
-  font-size: 1.5rem;
+  font-size: 1.35rem;
 }
 .address {
   flex: 1;
@@ -97,7 +81,8 @@ body {
   justify-content: flex-end;
 }
 .translate {
-  font-family: Arial, Helvetica, sans-serif;
+  font-size: 2rem;
+  font-family: var(--text);
 }
 .btn-container {
   display: flex;
@@ -137,6 +122,7 @@ button {
 }
 .show-address-btn,
 .show-nums {
+  font-family: var(--text);
   background: #3e686936;
   color: rgb(34, 97, 91);
   border: 1px solid #485563;
@@ -174,7 +160,6 @@ button {
   border-radius: 50%;
   background: #485563;
   position: absolute;
-  /* inset: 0; */
 }
 .locked-gate {
   display: flex;
@@ -189,15 +174,11 @@ button {
   aspect-ratio: 1;
   border-radius: 50%;
   position: absolute;
-  /* inset: 0; */
   z-index: 10;
   background: transparent;
 }
 #spinning-gate {
-  /* display: none; */
   background: radial-gradient(circle, #29323c 61%, #566371) 100%;
-  /* background: transparent; */
-  /* z-index: 10; */
 }
 .spin-chevron-gate {
   transform: rotate(1turn);
@@ -405,35 +386,18 @@ button {
   position: absolute;
   bottom: 10%;
   right: 25%;
-  width: 400px;
+  width: 600px;
   height: 125px;
   border-radius: 15%;
   display: flex;
   align-items: center;
   cursor: pointer;
-  /* transition: all 1s ease-in; */
-}
-@keyframes fadeAway {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 .sensor-glow {
   animation: glow 2s infinite ease;
 }
 .sensor-light {
-  margin-inline: 5px;
+  margin-inline: 15px;
   width: 5px;
   height: 65px;
   border-radius: 20%;
@@ -442,62 +406,6 @@ button {
     hsl(193, 39%, 25%) -50%,
     hsl(193, 39%, 30%) 80%
   );
-}
-.dhd-close-sensor {
-  position: absolute;
-  bottom: -120%;
-  opacity: 0;
-  right: 25%;
-  width: 400px;
-  height: 125px;
-  border-radius: 15%;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  transition: all 0.5s ease-in-out;
-}
-.close-light {
-  margin-inline: 5px;
-  width: 5px;
-  height: 65px;
-  background: #fff;
-  border-radius: 20%;
-  background: linear-gradient(
-    to left,
-    hsl(49, 39%, 25%) -50%,
-    hsl(33, 39%, 30%) 80%
-  );
-}
-.close-light:nth-child(even) {
-  width: 7px;
-}
-#close-1 {
-  animation-delay: 0.6s;
-  height: 10px;
-}
-#close-2 {
-  animation-delay: 0.5s;
-  height: 20px;
-}
-#close-3 {
-  animation-delay: 0.4s;
-  height: 30px;
-}
-#close-4 {
-  animation-delay: 0.3s;
-  height: 40px;
-}
-#close-5 {
-  animation-delay: 0.2s;
-  height: 50px;
-}
-#close-6 {
-  animation-delay: 0.1s;
-  height: 60px;
-}
-#close-7 {
-  animation-delay: 0;
-  height: 70px;
 }
 .sensor-light:nth-child(even) {
   height: 75px;
@@ -527,6 +435,59 @@ button {
 #light-7 {
   animation-delay: 0.6s;
 }
+.dhd-close-sensor {
+  position: absolute;
+  bottom: -120%;
+  opacity: 0;
+  right: 25%;
+  width: 600px;
+  height: 125px;
+  border-radius: 15%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+}
+.close-light {
+  margin-inline: 15px;
+  width: 5px;
+  height: 65px;
+  border-radius: 20%;
+  background: linear-gradient(
+    to left,
+    hsl(49, 39%, 25%) -50%,
+    hsl(33, 39%, 30%) 80%
+  );
+}
+.close-light:nth-child(even) {
+  height: 75px;
+}
+.close-light:nth-child(4) {
+  width: 7px;
+  height: 85px;
+}
+#close-1 {
+  animation-delay: 0.6s;
+}
+#close-2 {
+  animation-delay: 0.5s;
+}
+#close-3 {
+  animation-delay: 0.4s;
+}
+#close-4 {
+  animation-delay: 0.3s;
+}
+#close-5 {
+  animation-delay: 0.2s;
+}
+#close-6 {
+  animation-delay: 0.1s;
+}
+#close-7 {
+  animation-delay: 0;
+}
+
 @keyframes sensed {
   from {
     background: linear-gradient(
@@ -552,6 +513,22 @@ button {
   }
   100% {
     opacity: 0.3;
+  }
+}
+@keyframes fadeAway {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 .dhd-wrapper {
@@ -603,7 +580,8 @@ button {
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
 .translate-dial {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--text);
+  font-size: 2.5rem;
 }
 .pegasus-dial {
   font-family: var(--pegasus);
@@ -695,7 +673,7 @@ button {
   border: 0;
 }
 #translate {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--text);
 }
 /* ! JS CLASSES */
 .activate {
@@ -734,10 +712,10 @@ button {
   z-index: 500;
 }
 .forwards {
-  animation: shrink 6s ease-in;
+  animation: shrink 5s ease-in;
 }
 .reverse {
-  animation: shrinkBack 6s ease-in-out;
+  animation: shrinkBack 5s ease-in-out;
 }
 .gate-failed {
   animation: gateFailed 0.3s linear;
@@ -764,7 +742,7 @@ button {
     transform: scale(0) rotate(0);
   }
   to {
-    transform: scale(1.125) rotate(-8turn);
+    transform: scale(1.25) rotate(-8turn);
   }
 }
 @keyframes shrink {
@@ -772,7 +750,7 @@ button {
     transform: scale(0) rotate(0);
   }
   to {
-    transform: scale(1.125) rotate(12turn);
+    transform: scale(1.25) rotate(12turn);
   }
 }
 @keyframes wormhole {

@@ -44,9 +44,6 @@ let data;
 
 dialSymbols.forEach((dial, i) => {
   dial.classList.add('pegasus-dial');
-  // dial.setAttribute('data-dhd', dataDHD);
-  // dial.setAttribute('data-matched', false);
-  // console.log(gateData);
 });
 
 let dialedAddress = [];
@@ -69,73 +66,73 @@ const gateAddressBook = [
   {
     reference: 'earth',
     world: 'Earth',
-    gateAddress: ['o', 'q', 'H', 'p', 'G', 'J', 'r'],
+    gateAddress: ['o ', 'q ', 'H ', 'p ', 'G ', 'J ', 'E '],
   },
   {
     reference: 'asuras',
     world: 'Asuras',
-    gateAddress: ['g', 'f', 'k', 's', 'I', 'j', 'E'],
+    gateAddress: ['g ', 'f ', 'k ', 's ', 'I ', 'j ', 'E '],
+  },
+  {
+    reference: 'dagan',
+    world: 'Dagan',
+    gateAddress: ['q ', 'v ', 'z ', 's ', 'r ', 'C ', 'E '],
   },
   {
     reference: 'athos',
     world: 'Athos',
-    gateAddress: ['p', 'i', 's', 'F', 'A', 'u', 'E'],
+    gateAddress: ['p ', 'i ', 's ', 'F ', 'A ', 'u ', 'E '],
   },
   {
     reference: 'fords-planet',
     world: "Ford's Planet",
-    gateAddress: ['a', 'n', '?', 'm', '?', '?', 'E'],
+    gateAddress: ['o ', 'u ', 't ', 'p ', 'C ', 's ', 'E '],
   },
   {
     reference: 'genii',
     world: 'Genii Homeworld',
-    gateAddress: ['G', 'q', 'l', 'c', 'v', 'h', 'E'],
+    gateAddress: ['G ', 'q ', 'l ', 'c ', 'v ', 'h ', 'E '],
   },
   {
     reference: 'hoff',
     world: 'Hoff',
-    gateAddress: ['s', 'c', 'a', 'F', 'q', 'r', 'E'],
-  },
-  {
-    reference: 'lantea',
-    world: 'Lantea',
-    gateAddress: ['w', 'J', 'l', 'y', 'a', 'g', 'E'],
+    gateAddress: ['c ', 'z ', 'a ', 'F ', 'q ', 'r ', 'E '],
   },
   {
     reference: 'lord-protector',
     world: "Lord Protector's Planet",
-    gateAddress: ['t', 'o', 'w', 'e', 'r', '?', 'E'],
+    gateAddress: ['t ', 'o ', 'w ', 'e ', 'r ', 'b ', 'E '],
   },
   {
     reference: 'lucius',
     world: "Lucius's Planet",
-    gateAddress: ['g', 'h', 'j', 'f', 'u', 'n', 'E'],
+    gateAddress: ['g ', 'h ', 'j ', 'f ', 'u ', 'n ', 'E '],
   },
   {
     reference: 'm4d-058',
     world: 'M4D-058',
-    gateAddress: ['s', 'a', 'l', 'k', 'm', 'h', 'E'],
+    gateAddress: ['s ', 'a ', 'l ', 'k ', 'm ', 'h ', 'E '],
   },
   {
     reference: 'olesia',
     world: 'Olesia',
-    gateAddress: ['g', 'o', 't', 'e', 'a', 'm', 'E'],
+    gateAddress: ['g ', 'o ', 't ', 'e ', 'a ', 'm ', 'E '],
   },
   {
     reference: 'sateda',
     world: 'Sateda',
-    gateAddress: ['g', 'm', 'n', 'q', 'u', 's', 'E'],
+    gateAddress: ['g ', 'm ', 'n ', 'q ', 'u ', 's ', 'E '],
   },
   {
     reference: 'taranis',
     world: 'Taranis',
-    gateAddress: ['t', 'm', 'a', 'r', 'n', 'i', 'E'],
+    gateAddress: ['t ', 'm ', 'a ', 'r ', 'n ', 'i ', 'E '],
   },
   //~ shadow monster planet
   {
     reference: 'shadow',
     world: 'M4X-337',
-    gateAddress: ['t', 'r', 'q', 'o', 'C', 'B', 'E'],
+    gateAddress: ['t ', 'r ', 'q ', 'o ', 'C ', 'B ', 'E '],
   },
 ];
 
@@ -149,29 +146,13 @@ function buildAddressBook() {
     planet.innerText = address.world;
     const planetAddress = document.createElement('div');
     planetAddress.classList.add('address');
-    planetAddress.innerText = address.gateAddress;
+    planetAddress.innerText = address.gateAddress.join('');
     div.appendChild(planet);
     div.appendChild(planetAddress);
     addressBook.appendChild(div);
     return;
   });
-
-//~ //////////////////////
-//!       BUILDING  DHD      ||
-//~ //////////////////////
-
-// placeholderContainers.forEach((container, i) => {
-//   const symbolName = container.dataset.gate;
-//   const symbolText = container.firstElementChild.textContent;
-//   const dhdDial = document.createElement('button');
-//   dhdDial.classList.add('dhd-btn');
-//   dhdDial.setAttribute('data-dhd', symbolName);
-//   dhdDial.setAttribute('data-matched', false);
-//   dhdDial.innerText = symbolText;
-//   dhdContainer.appendChild(dhdDial);
-//   return dhdDial;
-// });
-const dhdSymbols = [...document.querySelectorAll('.dhd-btn')];
+}
 
 placeholderSymbols.forEach((symbol, i) => {
   hideSymbol = placeholderSymbols[i];
@@ -186,9 +167,6 @@ let index = 0;
 let matchedKey;
 let key;
 let dhd = new Audio('./assets/sound/dhd_atlantis.mp3');
-// placeholderSymbols.forEach((symbol, i) => {
-//   console.log(placeholderSymbols[i]);
-// })
 
 function getMatch() {
   placeholderSymbols.forEach((symbol, i) => {
@@ -449,7 +427,7 @@ function gateTravel() {
   }, 1500);
   setTimeout(() => {
     window.location.href = `./${reference}.html`;
-  }, 7500);
+  }, 6000);
   return;
 }
 
@@ -487,9 +465,6 @@ function clearGateRoom() {
     dials.forEach((dial) => {
       dial.classList.remove('activate');
     });
-    // dhdSymbols.forEach((dhd) => {
-    //   dhd.classList.remove('activate');
-    // });
     innerChevrons.forEach((chevron) => {
       chevron.classList.remove('chevron-locked', 'invalid-gate');
     });
@@ -506,7 +481,6 @@ function clearGateRoom() {
 //~ /////////////////////////////////////
 //!         EVENT LISTENERS         \\
 //~ /////////////////////////////////////
-// dhdSymbols.forEach((dhdSymbol) => dhdSymbol.addEventListener('click', dialOut));
 
 dials.forEach((dial) => dial.addEventListener('click', dialOut));
 
@@ -526,6 +500,12 @@ showAddressBtn.addEventListener('click', () => {
 window.addEventListener('DOMContentLoaded', buildAddressBook);
 
 translateBtn.addEventListener('click', () => {
+  translateBtn.classList.toggle('clicked');
+  if (translateBtn.classList.contains('clicked')) {
+    translateBtn.innerHTML = 'Show Lantean Glyphs'
+  } else {
+    translateBtn.innerHTML = 'Show Alpha References'
+  }
   dialSymbols.forEach((dial) => {
     dial.classList.toggle('pegasus-dial');
     dial.classList.toggle('translate-dial');
@@ -535,10 +515,11 @@ translateBtn.addEventListener('click', () => {
 });
 
 const dhdWrapper = document.querySelector('.dhd-wrapper');
-const dhdRecognized = document.querySelector('.recognized');
 const closeSensor = document.querySelector('.dhd-close-sensor');
 const closeLights = [...document.querySelectorAll('.close-light')];
 closeSensor.addEventListener('mouseleave', () => {
+  closeSensor.style.pointerEvents = 'none'
+  dhdSensor.style.pointerEvents = 'auto'
   closeLights.forEach((light) => light.classList.toggle('sensor-glow'));
   dhdSensor.style.animation = 'fadeIn 2s ease-out forwards';
   closeSensor.style.animation = 'fadeAway 2s ease-out forwards';
@@ -554,6 +535,8 @@ closeSensor.addEventListener('mouseleave', () => {
 });
 
 dhdSensor.addEventListener('mouseleave', () => {
+  closeSensor.style.pointerEvents = 'auto'
+  dhdSensor.style.pointerEvents = 'none';
   closeLights.forEach((light) => light.classList.toggle('sensor-glow'));
   sensorLights.forEach((light) => {
     light.style.background = `linear-gradient(
@@ -566,23 +549,7 @@ dhdSensor.addEventListener('mouseleave', () => {
       dhdWrapper.style.bottom = '4%';
       dhdSensor.style.animation = 'fadeAway 2s ease-out forwards';
       closeSensor.style.animation = 'fadeIn 2s ease-out forwards';
-      closeSensor.style.bottom = '20%';
+      closeSensor.style.bottom = '10%';
     }, 300);
   });
 });
-
-// sensorLights.forEach((light) => light.addEventListener('mouseenter', () => {
-//   lightIndex++
-//   light.style.animation = 'sensed .4s ease forwards';
-//   if (lightIndex === 7) {
-//     setTimeout(() => {
-//       sensorLights.forEach((light) => light.style.animation = 'recognized .5s ease')
-//     }, 300);
-//     setTimeout(() => {
-//       const dhdWrapper = document.querySelector('.dhd-wrapper');
-//       dhdWrapper.style.bottom = '4%';
-//       light.style.animation = '';
-//     }, 300);
-//     lightIndex = 0;
-//   }
-// }))
