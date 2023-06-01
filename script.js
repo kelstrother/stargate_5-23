@@ -33,8 +33,21 @@ const dhdContainer = document.querySelector('.dhd-container');
 const showAddressBtn = document.querySelector('.show-address-btn');
 const addressBook = document.querySelector('.address-book-container');
 const closeAddressBtn = document.querySelector('.close');
-const translateBtn = document.querySelector('.show-nums');
+const translateBtn = document.querySelector('.nums');
 const address = document.querySelector('.address');
+const dhdSensor = document.querySelector('.dhd-light-sensor');
+const sensorLights = [...document.querySelectorAll('.sensor-light')];
+const dialSymbols = [...document.querySelectorAll('.dhd-symbol')];
+const dials = [...document.querySelectorAll('.dial')];
+
+let data;
+
+dialSymbols.forEach((dial, i) => {
+  dial.classList.add('pegasus-dial');
+  // dial.setAttribute('data-dhd', dataDHD);
+  // dial.setAttribute('data-matched', false);
+  // console.log(gateData);
+});
 
 let dialedAddress = [];
 let hideSymbol;
@@ -142,34 +155,22 @@ function buildAddressBook() {
     addressBook.appendChild(div);
     return;
   });
-  const btn = document.createElement('button');
-  btn.classList.add('close');
-  btn.innerText = 'close';
-  const btnDiv = document.createElement('div');
-  btnDiv.classList.add('btn-container');
-  btnDiv.appendChild(btn);
-  addressBook.appendChild(btnDiv);
-  btn.addEventListener('click', () => {
-    addressBook.classList.remove('show-address-book');
-    translateBtn.style.opacity = '0';
-    dhdSymbols.forEach(symbol => symbol.setAttribute('id', ''))
-  });
-}
 
 //~ //////////////////////
 //!       BUILDING  DHD      ||
 //~ //////////////////////
-placeholderContainers.forEach((container, i) => {
-  const symbolName = container.dataset.gate;
-  const symbolText = container.firstElementChild.textContent;
-  const dhdDial = document.createElement('button');
-  dhdDial.classList.add('dhd-btn');
-  dhdDial.setAttribute('data-dhd', symbolName);
-  dhdDial.setAttribute('data-matched', false);
-  dhdDial.innerText = symbolText;
-  dhdContainer.appendChild(dhdDial);
-  return dhdDial;
-});
+
+// placeholderContainers.forEach((container, i) => {
+//   const symbolName = container.dataset.gate;
+//   const symbolText = container.firstElementChild.textContent;
+//   const dhdDial = document.createElement('button');
+//   dhdDial.classList.add('dhd-btn');
+//   dhdDial.setAttribute('data-dhd', symbolName);
+//   dhdDial.setAttribute('data-matched', false);
+//   dhdDial.innerText = symbolText;
+//   dhdContainer.appendChild(dhdDial);
+//   return dhdDial;
+// });
 const dhdSymbols = [...document.querySelectorAll('.dhd-btn')];
 
 placeholderSymbols.forEach((symbol, i) => {
@@ -185,6 +186,9 @@ let index = 0;
 let matchedKey;
 let key;
 let dhd = new Audio('./assets/sound/dhd_atlantis.mp3');
+// placeholderSymbols.forEach((symbol, i) => {
+//   console.log(placeholderSymbols[i]);
+// })
 
 function getMatch() {
   placeholderSymbols.forEach((symbol, i) => {
@@ -218,12 +222,15 @@ function dialOut(e) {
   hideSymbol.setAttribute('data-id', index);
   if (e.type === 'click') {
     dialedSymbol = e.target;
+    console.log(dialedSymbol);
     getMatch();
   } else if (e.type === 'keypress') {
     key = e.key;
-    dhdSymbols.forEach((symbol) => {
-      if (key === symbol.innerText) {
-        dialedSymbol = symbol;
+    console.log(key);
+    dialSymbols.forEach((symbol) => {
+      if (key === symbol.textContent) {
+        dialedSymbol = symbol.parentElement;
+        console.log(dialedSymbol);
       }
     });
     getMatch();
@@ -394,7 +401,6 @@ function gateFail() {
   return;
 }
 
-
 function getRandomColor() {
   const hb = 204;
   let s = Math.floor(Math.random() * 107);
@@ -475,9 +481,15 @@ function clearGateRoom() {
   dialedAddress = [];
   console.log('cleared index: ', index, dialedAddress);
   setTimeout(() => {
-    dhdSymbols.forEach((dhd) => {
-      dhd.classList.remove('activate');
+    sensorLights.forEach(
+      (light) => (light.style.animation = 'glow 2s infinite ease')
+    );
+    dials.forEach((dial) => {
+      dial.classList.remove('activate');
     });
+    // dhdSymbols.forEach((dhd) => {
+    //   dhd.classList.remove('activate');
+    // });
     innerChevrons.forEach((chevron) => {
       chevron.classList.remove('chevron-locked', 'invalid-gate');
     });
@@ -494,18 +506,83 @@ function clearGateRoom() {
 //~ /////////////////////////////////////
 //!         EVENT LISTENERS         \\
 //~ /////////////////////////////////////
-dhdSymbols.forEach((dhdSymbol) => dhdSymbol.addEventListener('click', dialOut));
+// dhdSymbols.forEach((dhdSymbol) => dhdSymbol.addEventListener('click', dialOut));
+
+dials.forEach((dial) => dial.addEventListener('click', dialOut));
+
 window.addEventListener('keypress', dialOut);
+
 showAddressBtn.addEventListener('click', () => {
-  addressBook.classList.add('show-address-book');
-  translateBtn.style.opacity = '1';
+  showAddressBtn.classList.toggle('clicked');
+  if (showAddressBtn.classList.contains('clicked')) {
+    showAddressBtn.innerHTML = 'Hide Address Book';
+  } else {
+    showAddressBtn.innerHTML = 'Show Address Book';
+  }
+  addressBook.classList.toggle('show-address-book');
+  translateBtn.classList.toggle('show-nums');
 });
+
 window.addEventListener('DOMContentLoaded', buildAddressBook);
+
 translateBtn.addEventListener('click', () => {
+  dialSymbols.forEach((dial) => {
+    dial.classList.toggle('pegasus-dial');
+    dial.classList.toggle('translate-dial');
+  });
   const translateAddress = document.querySelectorAll('.address');
   translateAddress.forEach((address) => address.classList.toggle('translate'));
-  dhdSymbols.forEach((dhdSymbol) => {
-    console.log(dhdSymbol);
-    dhdSymbol.setAttribute('id', 'translate')
-  })
 });
+
+const dhdWrapper = document.querySelector('.dhd-wrapper');
+const dhdRecognized = document.querySelector('.recognized');
+const closeSensor = document.querySelector('.dhd-close-sensor');
+const closeLights = [...document.querySelectorAll('.close-light')];
+closeSensor.addEventListener('mouseleave', () => {
+  closeLights.forEach((light) => light.classList.toggle('sensor-glow'));
+  dhdSensor.style.animation = 'fadeIn 2s ease-out forwards';
+  closeSensor.style.animation = 'fadeAway 2s ease-out forwards';
+  dhdWrapper.style.bottom = '-100%';
+  sensorLights.forEach((light) => {
+    light.style.background = `linear-gradient(
+    to left,
+    hsl(193, 39%, 25%) -50%,
+    hsl(193, 39%, 30%) 80%
+  )`;
+    light.classList.toggle('sensor-glow');
+  });
+});
+
+dhdSensor.addEventListener('mouseleave', () => {
+  closeLights.forEach((light) => light.classList.toggle('sensor-glow'));
+  sensorLights.forEach((light) => {
+    light.style.background = `linear-gradient(
+    to left,
+    hsl(193, 39%, 55%) -50%,
+        hsl(193, 39%, 74%) 80%
+    )`;
+    light.classList.toggle('sensor-glow');
+    setTimeout(() => {
+      dhdWrapper.style.bottom = '4%';
+      dhdSensor.style.animation = 'fadeAway 2s ease-out forwards';
+      closeSensor.style.animation = 'fadeIn 2s ease-out forwards';
+      closeSensor.style.bottom = '20%';
+    }, 300);
+  });
+});
+
+// sensorLights.forEach((light) => light.addEventListener('mouseenter', () => {
+//   lightIndex++
+//   light.style.animation = 'sensed .4s ease forwards';
+//   if (lightIndex === 7) {
+//     setTimeout(() => {
+//       sensorLights.forEach((light) => light.style.animation = 'recognized .5s ease')
+//     }, 300);
+//     setTimeout(() => {
+//       const dhdWrapper = document.querySelector('.dhd-wrapper');
+//       dhdWrapper.style.bottom = '4%';
+//       light.style.animation = '';
+//     }, 300);
+//     lightIndex = 0;
+//   }
+// }))
